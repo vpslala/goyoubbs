@@ -312,7 +312,7 @@ body>footer a:hover {color: #eee}
 #recent_comments li a:hover {color:#000;text-decoration: underline;}
 .sidebar section.search-form {color: #333;background-color:var(--bar-bg-color);text-align: center;padding: .5em}
 .sidebar section.search-form input {background-color: #FCFCFC;line-height: .8em;padding: .2em .5em;}
-#top-category-list {line-height: 1.8em;padding: .5em 1em .5em 1em;font-size: .9em;}
+#top-category-list {line-height: 1.8em;padding: .5em 1em .5em 1em;font-size: .9em;max-height: 163px;overflow: auto;}
 #top-category-list a {color: #333;text-decoration:none;padding: 2px 4px;}
 #top-category-list a:hover {color: #fff;background-color: #464747}
 #top-category-list .tag-meta {color: #777;}
