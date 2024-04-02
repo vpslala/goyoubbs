@@ -9,6 +9,7 @@
                 <a href="/t/{%dul p.TopicFmt.ID %}" rel="bookmark">{%s p.TopicFmt.Title %}</a>
             </h1>
             <p class="meta">
+                <span class="categories">📁 <a class="category" href="/n/{%dul p.TopicFmt.NodeId %}" rel="category tag">{%s p.DefaultNode.Name %}</a></span>
                 {%s= p.TopicFmt.ClockEmoji %} <time datetime="{%s p.TopicFmt.AddTimeFmt %}" pubdate data-updated="true">{%s p.TopicFmt.AddTimeFmt %}</time>
                 by <a href="/member/{%dul p.TopicFmt.UserId %}" rel="nofollow">{%s p.TopicFmt.Name %}</a>
                 {% if p.CurrentUser.Flag >= 99 %}
