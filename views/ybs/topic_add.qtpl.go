@@ -81,59 +81,97 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
 	if p.CurrentUser.Flag >= 99 {
 //line views/ybs/topic_add.qtpl:13
 		qw422016.N().S(`
-            <select id="select-uid">
-                `)
-//line views/ybs/topic_add.qtpl:15
+            <div class="pure-g">
+                <select id="select-uid">
+                    `)
+//line views/ybs/topic_add.qtpl:16
 		for _, item := range p.UserLst {
-//line views/ybs/topic_add.qtpl:15
+//line views/ybs/topic_add.qtpl:16
 			qw422016.N().S(`
-                <option value="`)
-//line views/ybs/topic_add.qtpl:16
+                    <option value="`)
+//line views/ybs/topic_add.qtpl:17
 			qw422016.N().DUL(item.ID)
-//line views/ybs/topic_add.qtpl:16
+//line views/ybs/topic_add.qtpl:17
 			qw422016.N().S(`" `)
-//line views/ybs/topic_add.qtpl:16
+//line views/ybs/topic_add.qtpl:17
 			if item.ID == p.DefaultUser.ID {
-//line views/ybs/topic_add.qtpl:16
+//line views/ybs/topic_add.qtpl:17
 				qw422016.N().S(`selected="selected"`)
-//line views/ybs/topic_add.qtpl:16
+//line views/ybs/topic_add.qtpl:17
 			}
-//line views/ybs/topic_add.qtpl:16
+//line views/ybs/topic_add.qtpl:17
 			qw422016.N().S(`>`)
-//line views/ybs/topic_add.qtpl:16
+//line views/ybs/topic_add.qtpl:17
 			qw422016.E().S(item.Name)
-//line views/ybs/topic_add.qtpl:16
+//line views/ybs/topic_add.qtpl:17
 			qw422016.N().S(`</option>
-                `)
-//line views/ybs/topic_add.qtpl:17
+                    `)
+//line views/ybs/topic_add.qtpl:18
 		}
-//line views/ybs/topic_add.qtpl:17
+//line views/ybs/topic_add.qtpl:18
 		qw422016.N().S(`
-            </select>
-            <input id="id-addtime" type="text" value="`)
-//line views/ybs/topic_add.qtpl:19
+                </select>
+                <input id="id-addtime" type="text" value="`)
+//line views/ybs/topic_add.qtpl:20
 		qw422016.N().DL(p.DefaultTopic.AddTime)
-//line views/ybs/topic_add.qtpl:19
-		qw422016.N().S(`" class="pure-input-1" placeholder="发表的时间戳" />
+//line views/ybs/topic_add.qtpl:20
+		qw422016.N().S(`" class="pure-u-1-6" placeholder="发表的时间戳" />
+            </div>
             `)
-//line views/ybs/topic_add.qtpl:20
+//line views/ybs/topic_add.qtpl:22
 	} else {
-//line views/ybs/topic_add.qtpl:20
+//line views/ybs/topic_add.qtpl:22
 		qw422016.N().S(`
             <input type="hidden" id="select-uid" value="`)
-//line views/ybs/topic_add.qtpl:21
+//line views/ybs/topic_add.qtpl:23
 		qw422016.N().DUL(p.DefaultTopic.UserId)
-//line views/ybs/topic_add.qtpl:21
+//line views/ybs/topic_add.qtpl:23
 		qw422016.N().S(`">
             <input type="hidden" id="id-addtime" value="`)
-//line views/ybs/topic_add.qtpl:22
+//line views/ybs/topic_add.qtpl:24
 		qw422016.N().DL(p.DefaultTopic.AddTime)
-//line views/ybs/topic_add.qtpl:22
+//line views/ybs/topic_add.qtpl:24
 		qw422016.N().S(`">
             `)
-//line views/ybs/topic_add.qtpl:23
+//line views/ybs/topic_add.qtpl:25
 	}
-//line views/ybs/topic_add.qtpl:23
+//line views/ybs/topic_add.qtpl:25
+	qw422016.N().S(`
+        </fieldset>
+        <fieldset>
+            <label for="ReadAuthed">
+                <input type="checkbox" id="ReadAuthed" `)
+//line views/ybs/topic_add.qtpl:29
+	if p.DefaultTopic.ReadAuthed {
+//line views/ybs/topic_add.qtpl:29
+		qw422016.N().S(`checked`)
+//line views/ybs/topic_add.qtpl:29
+	}
+//line views/ybs/topic_add.qtpl:29
+	qw422016.N().S(`> 登录可浏览
+            </label>
+            <label for="ReadReply">
+                <input type="checkbox" id="ReadReply" `)
+//line views/ybs/topic_add.qtpl:32
+	if p.DefaultTopic.ReadReply {
+//line views/ybs/topic_add.qtpl:32
+		qw422016.N().S(`checked`)
+//line views/ybs/topic_add.qtpl:32
+	}
+//line views/ybs/topic_add.qtpl:32
+	qw422016.N().S(`> 回复可浏览
+            </label>
+            <button id="insert-break" type="button" class="pure-button">插入分割线</button>
+            `)
+//line views/ybs/topic_add.qtpl:35
+	if !p.SiteCf.UploadLimit || (p.SiteCf.UploadLimit && p.CurrentUser.Flag >= 99) {
+//line views/ybs/topic_add.qtpl:35
+		qw422016.N().S(`
+            <input id="fileUpload" type="file" accept="image/*,video/*,audio/*" onChange="uploadFile()" class="pure-button" name="fileUpload" style="font-size: .8334em;width: 100px;" />
+            `)
+//line views/ybs/topic_add.qtpl:37
+	}
+//line views/ybs/topic_add.qtpl:37
 	qw422016.N().S(`
         </fieldset>
         <div id="id-msg"></div>
@@ -141,17 +179,7 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
             <input id="btn-preview" type="button" value="预览" name="submit" class="pure-button button-success" />
             <input id="btn-submit" type="submit" value="发表" name="submit" class="pure-button pure-button-primary" />
         </div>
-        `)
-//line views/ybs/topic_add.qtpl:30
-	if !p.SiteCf.UploadLimit || (p.SiteCf.UploadLimit && p.CurrentUser.Flag >= 99) {
-//line views/ybs/topic_add.qtpl:30
-		qw422016.N().S(`
-        <input id="fileUpload" type="file" accept="image/*,video/*,audio/*" onChange="uploadFile()" class="pure-button" name="fileUpload" style="font-size: .8334em;width: 95px;" />
-        `)
-//line views/ybs/topic_add.qtpl:32
-	}
-//line views/ybs/topic_add.qtpl:32
-	qw422016.N().S(`
+
         <div class="c"></div>
 
         <div id="id-preview" class="topic-content markdown-body"></div>
@@ -168,6 +196,19 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
         let addTimeEle = document.getElementById("id-addtime");
         let userIdEle = document.getElementById("select-uid");
         let reviewEle = document.getElementById("id-preview");
+        let readAuthedEle = document.getElementById("ReadAuthed");
+        let readReplyEle = document.getElementById("ReadReply");
+
+        document.getElementById("insert-break").addEventListener('click', function (event) {
+            let img_url = "\n`)
+//line views/ybs/topic_add.qtpl:65
+	qw422016.N().S(p.ReadMoreBreak)
+//line views/ybs/topic_add.qtpl:65
+	qw422016.N().S(`\n";
+            let pos = conEle.selectionStart;
+            let con = conEle.value;
+            conEle.value = con.slice(0, pos) + img_url + con.slice(pos);
+        }, false);
 
         btnReviewEle.addEventListener('click', function (event) {
             let con = conEle.value.trim();
@@ -213,7 +254,7 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
             reviewEle.style.display = "none";
 
             submitEle.setAttribute("disabled", "disabled");
-            postAjax("/topic/add", JSON.stringify({"Act": "submit", "NodeId": parseInt(nodeEle.value, 10), "Title": title, "Content": con, "UserId": parseInt(userIdEle.value, 10), "AddTime": parseInt(addTimeEle.value, 10)}), function(data){
+            postAjax("/topic/add", JSON.stringify({"Act": "submit", "NodeId": parseInt(nodeEle.value, 10), "Title": title, "Content": con, "UserId": parseInt(userIdEle.value, 10), "AddTime": parseInt(addTimeEle.value, 10), "ReadAuthed": readAuthedEle.checked, "ReadReply": readReplyEle.checked}), function(data){
                 var obj = JSON.parse(data)
                 //console.log(obj);
                 if(obj.Code === 200) {
@@ -230,9 +271,9 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
                     conEle.value = "";
 
                     window.location.href = "/member/`)
-//line views/ybs/topic_add.qtpl:110
+//line views/ybs/topic_add.qtpl:131
 	qw422016.N().DUL(p.CurrentUser.ID)
-//line views/ybs/topic_add.qtpl:110
+//line views/ybs/topic_add.qtpl:131
 	qw422016.N().S(`";
                     return;
                 }else{
@@ -246,9 +287,9 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
         }
 
         `)
-//line views/ybs/topic_add.qtpl:122
+//line views/ybs/topic_add.qtpl:143
 	if !p.SiteCf.UploadLimit || (p.SiteCf.UploadLimit && p.CurrentUser.Flag >= 99) {
-//line views/ybs/topic_add.qtpl:122
+//line views/ybs/topic_add.qtpl:143
 		qw422016.N().S(`
         document.addEventListener('paste', function (evt) {
             var url = "/file/upload";
@@ -272,9 +313,9 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
                             //console.log(obj);
                             if(obj.Code === 200) {
                                 let img_url = "\n" + s2tag(obj.Url, `)
-//line views/ybs/topic_add.qtpl:144
+//line views/ybs/topic_add.qtpl:165
 		qw422016.E().V(p.SiteCf.AutoDecodeMp4)
-//line views/ybs/topic_add.qtpl:144
+//line views/ybs/topic_add.qtpl:165
 		qw422016.N().S(`) + "\n";
                                 let pos = conEle.selectionStart;
                                 let con = conEle.value;
@@ -295,9 +336,9 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
                 let obj = JSON.parse(data)
                 if(obj.Code === 200) {
                     let img_url = "\n" + s2tag(obj.Url, `)
-//line views/ybs/topic_add.qtpl:163
+//line views/ybs/topic_add.qtpl:184
 		qw422016.E().V(p.SiteCf.AutoDecodeMp4)
-//line views/ybs/topic_add.qtpl:163
+//line views/ybs/topic_add.qtpl:184
 		qw422016.N().S(`) + "\n";
                     let pos = conEle.selectionStart;
                     let con = conEle.value;
@@ -308,9 +349,9 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
             });
         }
         `)
-//line views/ybs/topic_add.qtpl:172
+//line views/ybs/topic_add.qtpl:193
 	}
-//line views/ybs/topic_add.qtpl:172
+//line views/ybs/topic_add.qtpl:193
 	qw422016.N().S(`
 
     </script>
@@ -318,31 +359,31 @@ func (p *UserTopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
 </div>
 
 `)
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 }
 
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 func (p *UserTopicAdd) WriteMainBody(qq422016 qtio422016.Writer) {
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 	p.StreamMainBody(qw422016)
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 }
 
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 func (p *UserTopicAdd) MainBody() string {
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 	p.WriteMainBody(qb422016)
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 	qs422016 := string(qb422016.B)
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 	return qs422016
-//line views/ybs/topic_add.qtpl:178
+//line views/ybs/topic_add.qtpl:199
 }

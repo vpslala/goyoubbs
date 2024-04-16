@@ -21,22 +21,35 @@
             <input id="id-title" type="text" value="{%s p.DefaultTopic.Title %}" class="pure-input-1" placeholder="* 标题 MaxLen {%d p.SiteCf.TitleMaxLen %}" autocomplete="off" />
             <textarea id="id-content" class="pure-input-1 topic-con-input" placeholder="* 内容 MaxLen {%d p.SiteCf.TopicConMaxLen %}">{%s= p.DefaultTopic.Content %}</textarea>
             {% if p.CurrentUser.Flag >= 99 %}
-            <select id="select-uid">
-                {% for _, item := range p.UserLst %}
-                <option value="{%dul item.ID %}" {% if item.ID == p.DefaultUser.ID %}selected="selected"{% endif %}>{%s item.Name %}</option>
-                {% endfor %}
-            </select>
-            <input id="id-addtime" type="text" value="{%dl p.DefaultTopic.AddTime %}" class="pure-input-1" placeholder="发表的时间戳" />
+            <div class="pure-g">
+                <select id="select-uid">
+                    {% for _, item := range p.UserLst %}
+                    <option value="{%dul item.ID %}" {% if item.ID == p.DefaultUser.ID %}selected="selected"{% endif %}>{%s item.Name %}</option>
+                    {% endfor %}
+                </select>
+                <input id="id-addtime" type="text" value="{%dl p.DefaultTopic.AddTime %}" class="pure-u-1-6" placeholder="发表的时间戳" />
+            </div>
             {% else %}
             <input type="hidden" id="select-uid" value="{%dul p.DefaultTopic.UserId %}">
             <input type="hidden" id="id-addtime" value="{%dl p.DefaultTopic.AddTime %}">
+            {% endif %}
+        </fieldset>
+        <fieldset>
+            <label for="ReadAuthed">
+                <input type="checkbox" id="ReadAuthed" {% if p.DefaultTopic.ReadAuthed%}checked{% endif %}> 登录可浏览
+            </label>
+            <label for="ReadReply">
+                <input type="checkbox" id="ReadReply" {% if p.DefaultTopic.ReadReply%}checked{% endif %}> 回复可浏览
+            </label>
+            <button id="insert-break" type="button" class="pure-button">插入分割线</button>
+            {% if !p.SiteCf.UploadLimit || (p.SiteCf.UploadLimit && p.CurrentUser.Flag >= 99) %}
+            <input id="fileUpload" type="file" accept="image/*,video/*,audio/*" onChange="uploadFile()" class="pure-button" name="fileUpload" style="font-size: .8334em;width: 100px;" />
             {% endif %}
         </fieldset>
         <div id="id-msg"></div>
         <div class="fleft pure-button-group">
             <input id="btn-preview" type="button" value="预览" name="submit" class="pure-button button-success" />
             <input id="btn-submit" type="submit" value="发表" name="submit" class="pure-button pure-button-primary" />
-            <input id="fileUpload" type="file" accept="image/*,video/*,audio/*" onChange="uploadFile()" class="pure-button" name="fileUpload" style="font-size: .8334em;width: 95px;" />
             {% if p.PageName == "admin_topic_review" %}
             <a href="?act=del" class="pure-button button-warning fr">直接删除</a>
             {% endif %}
@@ -56,6 +69,15 @@
         let addTimeEle = document.getElementById("id-addtime");
         let userIdEle = document.getElementById("select-uid");
         let reviewEle = document.getElementById("id-preview");
+        let readAuthedEle = document.getElementById("ReadAuthed");
+        let readReplyEle = document.getElementById("ReadReply");
+
+        document.getElementById("insert-break").addEventListener('click', function (event) {
+            let img_url = "\n{%s= p.ReadMoreBreak %}\n";
+            let pos = conEle.selectionStart;
+            let con = conEle.value;
+            conEle.value = con.slice(0, pos) + img_url + con.slice(pos);
+        }, false);
 
         btnReviewEle.addEventListener("click", function(){
             let con = conEle.value.trim();
@@ -100,10 +122,8 @@
             reviewEle.innerHTML = "";
             reviewEle.style.display = "none";
 
-
-
             submitEle.setAttribute("disabled", "disabled");
-            postAjax("/admin/topic/add", JSON.stringify({"Act": "submit", "ID": {%dul p.DefaultTopic.ID %}, "NodeId": parseInt(nodeEle.value, 10), "Title": title, "Content": con, "UserId": parseInt(userIdEle.value, 10), "AddTime": parseInt(addTimeEle.value.trim(), 10)}), function(data){
+            postAjax("/admin/topic/add", JSON.stringify({"Act": "submit", "ID": {%dul p.DefaultTopic.ID %}, "NodeId": parseInt(nodeEle.value, 10), "Title": title, "Content": con, "UserId": parseInt(userIdEle.value, 10), "AddTime": parseInt(addTimeEle.value.trim(), 10), "ReadAuthed": readAuthedEle.checked, "ReadReply": readReplyEle.checked}), function(data){
                 var obj = JSON.parse(data)
                 //console.log(obj);
                 if(obj.Code === 200) {

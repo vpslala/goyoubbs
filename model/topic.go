@@ -16,19 +16,22 @@ import (
 const (
 	TopicTbName       = "topic"
 	TopicReviewTbName = "review_topic"
+	ReadMoreBreak     = "<!-- read more -->"
 )
 
 type Topic struct {
-	ID       uint64
-	NodeId   uint64
-	UserId   uint64
-	Title    string
-	Content  string
-	ClientIp string
-	Tags     string
-	AddTime  int64
-	EditTime int64
-	Comments uint64
+	ID         uint64
+	NodeId     uint64
+	UserId     uint64
+	Title      string
+	Content    string
+	ClientIp   string
+	Tags       string
+	ReadAuthed bool
+	ReadReply  bool
+	AddTime    int64
+	EditTime   int64
+	Comments   uint64
 }
 
 type TopicRecForm struct {
@@ -39,6 +42,8 @@ type TopicRecForm struct {
 	Title      string
 	Content    string
 	Tags       string
+	ReadAuthed bool
+	ReadReply  bool
 	AddTime    int64
 	AddTimeFmt string
 }

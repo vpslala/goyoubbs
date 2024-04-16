@@ -37,6 +37,7 @@ func (h *BaseHandler) TopicAddPage(ctx *fasthttp.RequestCtx) {
 	}
 	node, _ := model.NodeGetById(db, nidInt)
 
+	evn.ReadMoreBreak = model.ReadMoreBreak
 	evn.DefaultTopic = model.Topic{
 		NodeId: 1,
 		UserId: curUser.ID,
@@ -134,6 +135,8 @@ func (h *BaseHandler) TopicAddPost(ctx *fasthttp.RequestCtx) {
 	topic.Title = rec.Title
 	topic.Content = rec.Content
 	topic.AddTime = rec.AddTime // util.GetCNTM()
+	topic.ReadAuthed = rec.ReadAuthed
+	topic.ReadReply = rec.ReadReply
 
 	// may fix
 	if topic.UserId == 0 {

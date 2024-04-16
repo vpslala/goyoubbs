@@ -30,6 +30,7 @@ func (h *BaseHandler) AdminTopicAddPage(ctx *fasthttp.RequestCtx) {
 	evn.Title = "发表文章"
 	evn.PageName = "topic_input"
 
+	evn.ReadMoreBreak = model.ReadMoreBreak
 	evn.DefaultTopic = model.Topic{
 		NodeId: 1,
 		UserId: curUser.ID,
@@ -122,6 +123,8 @@ func (h *BaseHandler) AdminTopicAddPost(ctx *fasthttp.RequestCtx) {
 	topic.Title = rec.Title
 	topic.Content = rec.Content
 	topic.AddTime = rec.AddTime // util.GetCNTM()
+	topic.ReadAuthed = rec.ReadAuthed
+	topic.ReadReply = rec.ReadReply
 
 	// may fix
 	if topic.UserId == 0 {

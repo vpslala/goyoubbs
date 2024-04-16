@@ -119,76 +119,113 @@ func (p *TopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
 		if p.CurrentUser.Flag >= 99 {
 //line views/admin/topic_add.qtpl:23
 			qw422016.N().S(`
-            <select id="select-uid">
-                `)
-//line views/admin/topic_add.qtpl:25
+            <div class="pure-g">
+                <select id="select-uid">
+                    `)
+//line views/admin/topic_add.qtpl:26
 			for _, item := range p.UserLst {
-//line views/admin/topic_add.qtpl:25
+//line views/admin/topic_add.qtpl:26
 				qw422016.N().S(`
-                <option value="`)
-//line views/admin/topic_add.qtpl:26
+                    <option value="`)
+//line views/admin/topic_add.qtpl:27
 				qw422016.N().DUL(item.ID)
-//line views/admin/topic_add.qtpl:26
+//line views/admin/topic_add.qtpl:27
 				qw422016.N().S(`" `)
-//line views/admin/topic_add.qtpl:26
+//line views/admin/topic_add.qtpl:27
 				if item.ID == p.DefaultUser.ID {
-//line views/admin/topic_add.qtpl:26
+//line views/admin/topic_add.qtpl:27
 					qw422016.N().S(`selected="selected"`)
-//line views/admin/topic_add.qtpl:26
+//line views/admin/topic_add.qtpl:27
 				}
-//line views/admin/topic_add.qtpl:26
+//line views/admin/topic_add.qtpl:27
 				qw422016.N().S(`>`)
-//line views/admin/topic_add.qtpl:26
+//line views/admin/topic_add.qtpl:27
 				qw422016.E().S(item.Name)
-//line views/admin/topic_add.qtpl:26
+//line views/admin/topic_add.qtpl:27
 				qw422016.N().S(`</option>
-                `)
-//line views/admin/topic_add.qtpl:27
+                    `)
+//line views/admin/topic_add.qtpl:28
 			}
-//line views/admin/topic_add.qtpl:27
+//line views/admin/topic_add.qtpl:28
 			qw422016.N().S(`
-            </select>
-            <input id="id-addtime" type="text" value="`)
-//line views/admin/topic_add.qtpl:29
+                </select>
+                <input id="id-addtime" type="text" value="`)
+//line views/admin/topic_add.qtpl:30
 			qw422016.N().DL(p.DefaultTopic.AddTime)
-//line views/admin/topic_add.qtpl:29
-			qw422016.N().S(`" class="pure-input-1" placeholder="发表的时间戳" />
+//line views/admin/topic_add.qtpl:30
+			qw422016.N().S(`" class="pure-u-1-6" placeholder="发表的时间戳" />
+            </div>
             `)
-//line views/admin/topic_add.qtpl:30
+//line views/admin/topic_add.qtpl:32
 		} else {
-//line views/admin/topic_add.qtpl:30
+//line views/admin/topic_add.qtpl:32
 			qw422016.N().S(`
             <input type="hidden" id="select-uid" value="`)
-//line views/admin/topic_add.qtpl:31
+//line views/admin/topic_add.qtpl:33
 			qw422016.N().DUL(p.DefaultTopic.UserId)
-//line views/admin/topic_add.qtpl:31
+//line views/admin/topic_add.qtpl:33
 			qw422016.N().S(`">
             <input type="hidden" id="id-addtime" value="`)
-//line views/admin/topic_add.qtpl:32
+//line views/admin/topic_add.qtpl:34
 			qw422016.N().DL(p.DefaultTopic.AddTime)
-//line views/admin/topic_add.qtpl:32
+//line views/admin/topic_add.qtpl:34
 			qw422016.N().S(`">
             `)
-//line views/admin/topic_add.qtpl:33
+//line views/admin/topic_add.qtpl:35
 		}
-//line views/admin/topic_add.qtpl:33
+//line views/admin/topic_add.qtpl:35
+		qw422016.N().S(`
+        </fieldset>
+        <fieldset>
+            <label for="ReadAuthed">
+                <input type="checkbox" id="ReadAuthed" `)
+//line views/admin/topic_add.qtpl:39
+		if p.DefaultTopic.ReadAuthed {
+//line views/admin/topic_add.qtpl:39
+			qw422016.N().S(`checked`)
+//line views/admin/topic_add.qtpl:39
+		}
+//line views/admin/topic_add.qtpl:39
+		qw422016.N().S(`> 登录可浏览
+            </label>
+            <label for="ReadReply">
+                <input type="checkbox" id="ReadReply" `)
+//line views/admin/topic_add.qtpl:42
+		if p.DefaultTopic.ReadReply {
+//line views/admin/topic_add.qtpl:42
+			qw422016.N().S(`checked`)
+//line views/admin/topic_add.qtpl:42
+		}
+//line views/admin/topic_add.qtpl:42
+		qw422016.N().S(`> 回复可浏览
+            </label>
+            <button id="insert-break" type="button" class="pure-button">插入分割线</button>
+            `)
+//line views/admin/topic_add.qtpl:45
+		if !p.SiteCf.UploadLimit || (p.SiteCf.UploadLimit && p.CurrentUser.Flag >= 99) {
+//line views/admin/topic_add.qtpl:45
+			qw422016.N().S(`
+            <input id="fileUpload" type="file" accept="image/*,video/*,audio/*" onChange="uploadFile()" class="pure-button" name="fileUpload" style="font-size: .8334em;width: 100px;" />
+            `)
+//line views/admin/topic_add.qtpl:47
+		}
+//line views/admin/topic_add.qtpl:47
 		qw422016.N().S(`
         </fieldset>
         <div id="id-msg"></div>
         <div class="fleft pure-button-group">
             <input id="btn-preview" type="button" value="预览" name="submit" class="pure-button button-success" />
             <input id="btn-submit" type="submit" value="发表" name="submit" class="pure-button pure-button-primary" />
-            <input id="fileUpload" type="file" accept="image/*,video/*,audio/*" onChange="uploadFile()" class="pure-button" name="fileUpload" style="font-size: .8334em;width: 95px;" />
             `)
-//line views/admin/topic_add.qtpl:40
+//line views/admin/topic_add.qtpl:53
 		if p.PageName == "admin_topic_review" {
-//line views/admin/topic_add.qtpl:40
+//line views/admin/topic_add.qtpl:53
 			qw422016.N().S(`
             <a href="?act=del" class="pure-button button-warning fr">直接删除</a>
             `)
-//line views/admin/topic_add.qtpl:42
+//line views/admin/topic_add.qtpl:55
 		}
-//line views/admin/topic_add.qtpl:42
+//line views/admin/topic_add.qtpl:55
 		qw422016.N().S(`
         </div>
         <div class="c"></div>
@@ -206,6 +243,19 @@ func (p *TopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
         let addTimeEle = document.getElementById("id-addtime");
         let userIdEle = document.getElementById("select-uid");
         let reviewEle = document.getElementById("id-preview");
+        let readAuthedEle = document.getElementById("ReadAuthed");
+        let readReplyEle = document.getElementById("ReadReply");
+
+        document.getElementById("insert-break").addEventListener('click', function (event) {
+            let img_url = "\n`)
+//line views/admin/topic_add.qtpl:76
+		qw422016.N().S(p.ReadMoreBreak)
+//line views/admin/topic_add.qtpl:76
+		qw422016.N().S(`\n";
+            let pos = conEle.selectionStart;
+            let con = conEle.value;
+            conEle.value = con.slice(0, pos) + img_url + con.slice(pos);
+        }, false);
 
         btnReviewEle.addEventListener("click", function(){
             let con = conEle.value.trim();
@@ -250,44 +300,42 @@ func (p *TopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
             reviewEle.innerHTML = "";
             reviewEle.style.display = "none";
 
-
-
             submitEle.setAttribute("disabled", "disabled");
             postAjax("/admin/topic/add", JSON.stringify({"Act": "submit", "ID": `)
-//line views/admin/topic_add.qtpl:106
+//line views/admin/topic_add.qtpl:126
 		qw422016.N().DUL(p.DefaultTopic.ID)
-//line views/admin/topic_add.qtpl:106
-		qw422016.N().S(`, "NodeId": parseInt(nodeEle.value, 10), "Title": title, "Content": con, "UserId": parseInt(userIdEle.value, 10), "AddTime": parseInt(addTimeEle.value.trim(), 10)}), function(data){
+//line views/admin/topic_add.qtpl:126
+		qw422016.N().S(`, "NodeId": parseInt(nodeEle.value, 10), "Title": title, "Content": con, "UserId": parseInt(userIdEle.value, 10), "AddTime": parseInt(addTimeEle.value.trim(), 10), "ReadAuthed": readAuthedEle.checked, "ReadReply": readReplyEle.checked}), function(data){
                 var obj = JSON.parse(data)
                 //console.log(obj);
                 if(obj.Code === 200) {
                     msgEle.style.display = "none";
                     `)
-//line views/admin/topic_add.qtpl:111
+//line views/admin/topic_add.qtpl:131
 		if p.GoBack {
-//line views/admin/topic_add.qtpl:111
+//line views/admin/topic_add.qtpl:131
 			qw422016.N().S(`
                     window.location.href = "/t/`)
-//line views/admin/topic_add.qtpl:112
+//line views/admin/topic_add.qtpl:132
 			qw422016.N().DUL(p.DefaultTopic.ID)
-//line views/admin/topic_add.qtpl:112
+//line views/admin/topic_add.qtpl:132
 			qw422016.N().S(`";
                     return
                     `)
-//line views/admin/topic_add.qtpl:114
+//line views/admin/topic_add.qtpl:134
 		}
-//line views/admin/topic_add.qtpl:114
+//line views/admin/topic_add.qtpl:134
 		qw422016.N().S(`
                     `)
-//line views/admin/topic_add.qtpl:115
+//line views/admin/topic_add.qtpl:135
 		if p.PageName == "admin_topic_review" {
-//line views/admin/topic_add.qtpl:115
+//line views/admin/topic_add.qtpl:135
 			qw422016.N().S(`
                     window.location.href = "/admin/topic/review";
                     `)
-//line views/admin/topic_add.qtpl:117
+//line views/admin/topic_add.qtpl:137
 		} else {
-//line views/admin/topic_add.qtpl:117
+//line views/admin/topic_add.qtpl:137
 			qw422016.N().S(`
                     if(data.Tid > 0){
                         window.location.href = "/t/"+data.Tid;
@@ -295,9 +343,9 @@ func (p *TopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
                         window.location.href = "/admin/my/topic";
                     }
                     `)
-//line views/admin/topic_add.qtpl:123
+//line views/admin/topic_add.qtpl:143
 		}
-//line views/admin/topic_add.qtpl:123
+//line views/admin/topic_add.qtpl:143
 		qw422016.N().S(`
                     return false;
                 } else if(obj.Code === 201){
@@ -307,9 +355,9 @@ func (p *TopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
                     conEle.value = "";
 
                     window.location.href = "/member/`)
-//line views/admin/topic_add.qtpl:131
+//line views/admin/topic_add.qtpl:151
 		qw422016.N().DUL(p.CurrentUser.ID)
-//line views/admin/topic_add.qtpl:131
+//line views/admin/topic_add.qtpl:151
 		qw422016.N().S(`";
                     return false;
                 }else{
@@ -344,9 +392,9 @@ func (p *TopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
                             //console.log(obj);
                             if(obj.Code === 200) {
                                 let img_url = "\n" + s2tag(obj.Url, `)
-//line views/admin/topic_add.qtpl:164
+//line views/admin/topic_add.qtpl:184
 		qw422016.E().V(p.SiteCf.AutoDecodeMp4)
-//line views/admin/topic_add.qtpl:164
+//line views/admin/topic_add.qtpl:184
 		qw422016.N().S(`) + "\n";
                                 let pos = conEle.selectionStart;
                                 let con = conEle.value;
@@ -366,9 +414,9 @@ func (p *TopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
                 let obj = JSON.parse(data)
                 if(obj.Code === 200) {
                     let img_url = "\n" + s2tag(obj.Url, `)
-//line views/admin/topic_add.qtpl:182
+//line views/admin/topic_add.qtpl:202
 		qw422016.E().V(p.SiteCf.AutoDecodeMp4)
-//line views/admin/topic_add.qtpl:182
+//line views/admin/topic_add.qtpl:202
 		qw422016.N().S(`) + "\n";
                     let pos = conEle.selectionStart;
                     let con = conEle.value;
@@ -381,39 +429,39 @@ func (p *TopicAdd) StreamMainBody(qw422016 *qt422016.Writer) {
     </script>
 
     `)
-//line views/admin/topic_add.qtpl:193
+//line views/admin/topic_add.qtpl:213
 	}
-//line views/admin/topic_add.qtpl:193
+//line views/admin/topic_add.qtpl:213
 	qw422016.N().S(`
 
 </div>
 
 `)
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 }
 
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 func (p *TopicAdd) WriteMainBody(qq422016 qtio422016.Writer) {
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 	p.StreamMainBody(qw422016)
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 	qt422016.ReleaseWriter(qw422016)
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 }
 
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 func (p *TopicAdd) MainBody() string {
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 	p.WriteMainBody(qb422016)
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 	qs422016 := string(qb422016.B)
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 	return qs422016
-//line views/admin/topic_add.qtpl:197
+//line views/admin/topic_add.qtpl:217
 }

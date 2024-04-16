@@ -57,6 +57,7 @@ func (h *BaseHandler) AdminTopicEditPage(ctx *fasthttp.RequestCtx) {
 		author = curUser
 	}
 
+	evn.ReadMoreBreak = model.ReadMoreBreak
 	evn.DefaultTopic = rec
 	if evn.DefaultTopic.NodeId == 0 {
 		evn.DefaultTopic.NodeId = 1
