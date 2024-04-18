@@ -7,7 +7,6 @@ import (
 	"github.com/ego008/sdb"
 	"github.com/valyala/fasthttp"
 	"goyoubbs/model"
-	"log"
 	"strings"
 )
 
@@ -77,7 +76,7 @@ func getTagFromTitle(db *sdb.DB, apiUrl string) {
 		fmt.Println(err)
 		return
 	}
-	log.Println(t.Code, t.Tag)
+	// log.Println(t.Code, t.Tag)
 	if t.Code == 200 {
 		if len(t.Tag) > 0 {
 			tags := strings.Split(t.Tag, ",")
@@ -106,7 +105,7 @@ func getTagFromTitle(db *sdb.DB, apiUrl string) {
 		}
 		_ = db.Hdel("task_to_get_tag", sdb.I2b(aobj.ID))
 	}
-	log.Println("done")
+	// log.Println("done")
 }
 
 func setArticleTag(mc *fastcache.Cache, db *sdb.DB) {

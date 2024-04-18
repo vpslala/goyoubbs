@@ -7,6 +7,7 @@ const (
 	KeyValueTb      = "keyValue"     // 存放一些配置
 	TbnSitemapIndex = "sm_i"         // key: indexStr, value: time
 	TbnPostUpdate   = "topic_update" // key: topicId, value: addTime
+	TbnPostReply    = "topic_reply:" // name: topic_reply:topicId, key: userId, value: nil
 	TbnDbImg        = "dbi"          // 上传图片 key: sdb.I2b(imgHashValue), value: img data
 	TbnIpInfo       = "ip"           // user ip info
 	TbnSetting      = "setting"      // key: settingKey, value: setting value

@@ -71,8 +71,67 @@ func (h *BaseHandler) TopicDetailPage(ctx *fasthttp.RequestCtx) {
 	evn.NodeLst = model.NodeGetAll(h.App.Mc, db)
 
 	logoUrl := scf.MainDomain + "/static/logo_112.png"
-	// find img
-	imgLst := util.FindAllImgInContent(topic.Content)
+	var imgLst []string
+
+	var contentFmt string
+	// get from mc
+	if topic.ReadAuthed || topic.ReadReply {
+		var canRead bool
+		if curUser.ID > 0 && curUser.Flag > model.FlagReview {
+			if topic.ReadAuthed || curUser.Flag == model.FlagAdmin || curUser.ID == author.ID {
+				canRead = true
+			} else if topic.ReadReply {
+				if db.HhasKey(model.TbnPostReply+strconv.FormatUint(topic.ID, 10), sdb.I2b(curUser.ID)) {
+					canRead = true
+				}
+			}
+		}
+		if canRead {
+			// show all
+			contentFmt = util.ContentFmt(topic.Content)
+			contentFmt = strings.ReplaceAll(contentFmt, `" alt="">`, `" alt="`+safeTitle+`">`)
+			// find img
+			imgLst = util.FindAllImgInContent(topic.Content)
+		} else {
+			//
+			publicCon, privateCon := util.GetPublicCon(topic.Content)
+			contentFmt = util.ContentFmt(publicCon)
+			contentFmt = strings.ReplaceAll(contentFmt, `" alt="">`, `" alt="`+safeTitle+`">`)
+			// read more tip
+			imgLen := util.CountAllImgInContent(privateCon)
+			actName := "登录"
+			if curUser.ID > 0 {
+				if curUser.Flag == model.FlagForbidden {
+					actName = "解禁"
+				} else if curUser.Flag == model.FlagReview {
+					actName = "等待审核"
+				} else {
+					if topic.ReadReply {
+						actName = "回复"
+					}
+				}
+			}
+			contentFmt += `<p>为了防止爬虫，本主题 "` + topic.Title + `" 的发布者已设置浏览权限，需要“` + actName + `”才能继续浏览，剩余的内容包含个` + strconv.Itoa(len(privateCon)) + `字`
+			if imgLen > 0 {
+				contentFmt += `，其中包含` + strconv.Itoa(imgLen) + `张图片`
+			}
+			contentFmt += `</p>`
+			// find img
+			imgLst = util.FindAllImgInContent(publicCon)
+		}
+	} else {
+		mcKey := []byte("ContentFmt:" + tid)
+		if mcValue, exist := util.ObjCachedGet(h.App.Mc, mcKey, nil, true); exist {
+			contentFmt = sdb.B2s(mcValue)
+		} else {
+			contentFmt = util.ContentFmt(topic.Content)
+			//
+			contentFmt = strings.ReplaceAll(contentFmt, `" alt="">`, `" alt="`+safeTitle+`">`)
+			util.ObjCachedSet(h.App.Mc, mcKey, contentFmt)
+		}
+	}
+
+	// img list
 	if len(imgLst) == 0 {
 		//imgLst = append(imgLst, logoUrl) // for Json-LD
 		imgLst = append(imgLst, scf.MainDomain+"/static/avatar/"+strconv.FormatUint(author.ID, 10)+".jpg")
@@ -82,18 +141,6 @@ func (h *BaseHandler) TopicDetailPage(ctx *fasthttp.RequestCtx) {
 				imgLst[i] = scf.MainDomain + v
 			}
 		}
-	}
-
-	var contentFmt string
-	// get from mc
-	mcKey := []byte("ContentFmt:" + tid)
-	if mcValue, exist := util.ObjCachedGet(h.App.Mc, mcKey, nil, true); exist {
-		contentFmt = sdb.B2s(mcValue)
-	} else {
-		contentFmt = util.ContentFmt(topic.Content)
-		//
-		contentFmt = strings.ReplaceAll(contentFmt, `" alt="">`, `" alt="`+safeTitle+`">`)
-		util.ObjCachedSet(h.App.Mc, mcKey, contentFmt)
 	}
 
 	// 帖子评论数

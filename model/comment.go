@@ -77,6 +77,8 @@ func CommentAdd(mc *fastcache.Cache, db *sdb.DB, obj Comment) Comment {
 	// 最近回复内容
 	k := []byte(strconv.FormatInt(obj.AddTime, 10) + "_" + strconv.FormatUint(obj.TopicId, 10))
 	_ = db.Hset("recent_comment", k, sdb.I2b(obj.ID))
+	// topic 回复者，浏览权限
+	_ = db.Hset(TbnPostReply+strconv.FormatUint(obj.TopicId, 10), sdb.I2b(obj.UserId), nil)
 	// 删缓存
 	mc.Del([]byte("CommentGetRecent"))
 	mc.Del([]byte("TopicGetRelative:" + strconv.FormatUint(obj.TopicId, 10)))

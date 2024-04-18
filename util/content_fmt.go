@@ -18,8 +18,9 @@ import (
 )
 
 const (
-	codeBlockFlag = "```"       // 代码块
-	codeBlockTag  = "[qLvDwXa:" // 代码替换随意标签
+	codeBlockFlag = "```"                // 代码块
+	codeBlockTag  = "[qLvDwXa:"          // 代码替换随意标签
+	ReadMoreBreak = "<!-- read more -->" // same as model const
 )
 
 var (
@@ -193,8 +194,17 @@ func ContentFmt(input string) string {
 	return md
 }
 
+func GetPublicCon(con string) (string, string) {
+	index := strings.Index(con, ReadMoreBreak)
+	if index >= 0 {
+		return con[:index], con[index+len(ReadMoreBreak):]
+	}
+	return con, ""
+}
+
 // GetDesc 截取文章摘要 for robots
 func GetDesc(input string) (des string) {
+	input, _ = GetPublicCon(input)
 	input = htmlRe.ReplaceAllString(input, "")
 	limit := 150
 
@@ -221,6 +231,7 @@ func GetDesc(input string) (des string) {
 
 // GetShortCon 截取文章摘要 for robots
 func GetShortCon(input string) (des string) {
+	input, _ = GetPublicCon(input)
 	input = strings.ReplaceAll(input, "\n", "")
 	input = htmlRe.ReplaceAllString(input, "")
 	limit := 50
@@ -313,4 +324,8 @@ func FindAllImgInContent(text string) (imgLst []string) {
 		imgLst = append(imgLst, strings.TrimSpace(imgSrcRaw))
 	}
 	return
+}
+
+func CountAllImgInContent(text string) int {
+	return len(MdImgRe.FindAllString(text, -1))
 }
