@@ -242,6 +242,7 @@ This is a base MainBody
             <li>回复: {%dul p.SiteInfo.ReplyNum %}</li>
             <li>分类: {%dul p.SiteInfo.NodeNum %}</li>
             <li>标签: {%dul p.SiteInfo.TagNum %}</li>
+            <li>{%s p.SiteInfo.WeekNum %}</li>
         </ul>
     </section>
     {% endif %}

@@ -811,107 +811,112 @@ func (p *BasePage) StreamAside(qw422016 *qt422016.Writer) {
 		qw422016.N().DUL(p.SiteInfo.TagNum)
 //line views/ybs/base.qtpl:244
 		qw422016.N().S(`</li>
+            <li>`)
+//line views/ybs/base.qtpl:245
+		qw422016.E().S(p.SiteInfo.WeekNum)
+//line views/ybs/base.qtpl:245
+		qw422016.N().S(`</li>
         </ul>
     </section>
     `)
-//line views/ybs/base.qtpl:247
+//line views/ybs/base.qtpl:248
 	}
-//line views/ybs/base.qtpl:247
+//line views/ybs/base.qtpl:248
 	qw422016.N().S(`
 
 </aside>
 
 `)
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 }
 
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 func (p *BasePage) WriteAside(qq422016 qtio422016.Writer) {
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 	p.StreamAside(qw422016)
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 }
 
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 func (p *BasePage) Aside() string {
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 	p.WriteAside(qb422016)
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 	return qs422016
-//line views/ybs/base.qtpl:251
+//line views/ybs/base.qtpl:252
 }
 
 // Aside ed
 //
 // Footer bg
 
-//line views/ybs/base.qtpl:255
+//line views/ybs/base.qtpl:256
 func (p *BasePage) StreamFooter(qw422016 *qt422016.Writer) {
-//line views/ybs/base.qtpl:255
+//line views/ybs/base.qtpl:256
 	qw422016.N().S(`
 <p>
     Copyright &copy; <a href="/">`)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:258
 	qw422016.E().S(p.SiteCf.Name)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:258
 	qw422016.N().S(`</a> -
     <span class="credit">Powered by <a href="https://youbbs.org">goYouBBS</a> - <a href="#">&uarr;Go Top</a> </span>
 </p>
 
 `)
-//line views/ybs/base.qtpl:261
+//line views/ybs/base.qtpl:262
 	if len(p.SiteCf.FooterPartHtml) > 0 {
-//line views/ybs/base.qtpl:261
+//line views/ybs/base.qtpl:262
 		qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:262
+//line views/ybs/base.qtpl:263
 		qw422016.N().S(p.SiteCf.FooterPartHtml)
-//line views/ybs/base.qtpl:262
+//line views/ybs/base.qtpl:263
 		qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:263
+//line views/ybs/base.qtpl:264
 	}
-//line views/ybs/base.qtpl:263
+//line views/ybs/base.qtpl:264
 	qw422016.N().S(`
 
 `)
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 }
 
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 func (p *BasePage) WriteFooter(qq422016 qtio422016.Writer) {
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 	p.StreamFooter(qw422016)
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 }
 
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 func (p *BasePage) Footer() string {
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 	p.WriteFooter(qb422016)
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 	return qs422016
-//line views/ybs/base.qtpl:265
+//line views/ybs/base.qtpl:266
 }
 
 // Footer ed

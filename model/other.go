@@ -3,12 +3,14 @@ package model
 import (
 	"github.com/ego008/goutils/json"
 	"github.com/ego008/sdb"
+	"goyoubbs/util"
 	"strconv"
 	"time"
 )
 
 // SiteInfo 网站信息
 type SiteInfo struct {
+	WeekNum  string // 时间，周数
 	Days     string // 建站时间
 	UserNum  uint64 // 用户数
 	NodeNum  uint64 // 节点数
@@ -100,5 +102,9 @@ func GetSiteInfo(db *sdb.DB) (si SiteInfo) {
 			Score: 100,
 		})
 	}
+
+	t := time.Now().UTC().Add(TimeOffSet)
+	_, wkn := t.ISOWeek()
+	si.WeekNum = util.TimeFmt(t.Unix(), "2006-01-02") + strconv.Itoa(wkn) + " week"
 	return
 }
