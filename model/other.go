@@ -105,6 +105,6 @@ func GetSiteInfo(db *sdb.DB) (si SiteInfo) {
 
 	t := time.Now().UTC().Add(TimeOffSet)
 	_, wkn := t.ISOWeek()
-	si.WeekNum = util.TimeFmt(t.Unix(), "2006-01-02") + strconv.Itoa(wkn) + " week"
+	si.WeekNum = util.TimeFmt(t.Unix(), "2006-01-02 ") + strconv.Itoa(wkn) + " week"
 	return
 }
