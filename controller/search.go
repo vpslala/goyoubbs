@@ -59,7 +59,7 @@ func (h *BaseHandler) SearchPage(ctx *fasthttp.RequestCtx) {
 	evn := &ybs.SearchPage{}
 	evn.SiteCf = scf
 	evn.Title = "搜索: " + q + " - " + scf.Name
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 
 	evn.Q = q
 	evn.NodeLst = model.NodeGetAll(h.App.Mc, db)

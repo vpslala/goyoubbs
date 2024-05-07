@@ -18,7 +18,7 @@ func (h *BaseHandler) AdminLinkPage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.Link{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "链接管理"
 	evn.PageName = "admin_link"

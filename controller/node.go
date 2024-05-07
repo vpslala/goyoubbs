@@ -66,7 +66,7 @@ func (h *BaseHandler) NodePage(ctx *fasthttp.RequestCtx) {
 	evn := &ybs.NodePage{}
 	evn.SiteCf = scf
 	evn.Title = "Category: " + node.Name + " - " + scf.Name
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 
 	evn.DefaultNode = node
 	evn.NodeLst = model.NodeGetAll(h.App.Mc, db)

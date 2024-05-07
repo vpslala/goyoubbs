@@ -184,6 +184,12 @@ func UserSet(db *sdb.DB, obj User) User {
 		return User{}
 	}
 	_ = db.Hset(UserTbName, sdb.I2b(obj.ID), jb)
+	// update UserMap
+	UserMapMux.Lock()
+	if _, ok := UserMap[obj.ID]; ok {
+		UserMap[obj.ID] = &obj
+	}
+	UserMapMux.Unlock()
 	return obj
 }
 

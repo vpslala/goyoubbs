@@ -18,7 +18,7 @@ func (h *BaseHandler) AdminRateLimitIpLookup(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.IpLookup{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "Ip Lookup"
 	evn.PageName = "admin_IpLookup"

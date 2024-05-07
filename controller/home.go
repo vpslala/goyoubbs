@@ -50,7 +50,7 @@ func (h *BaseHandler) HomePage(ctx *fasthttp.RequestCtx) {
 	evn := &ybs.HomePage{}
 	evn.SiteCf = scf
 	evn.Title = scf.Name
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 
 	evn.SiteInfo = model.GetSiteInfo(db)
 	evn.DefaultNode = model.Node{ID: 1}

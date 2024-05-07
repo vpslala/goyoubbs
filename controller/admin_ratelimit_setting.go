@@ -19,7 +19,7 @@ func (h *BaseHandler) AdminRateLimitSetting(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.RateLimitSetting{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "Rate Limit Setting"
 	evn.PageName = "admin_RateLimitSetting"

@@ -18,7 +18,7 @@ func (h *BaseHandler) AdminNodePage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.Node{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "分区管理"
 	evn.PageName = "admin_node"

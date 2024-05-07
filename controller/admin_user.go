@@ -20,7 +20,7 @@ func (h *BaseHandler) AdminUserPage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.User{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "用户管理"
 

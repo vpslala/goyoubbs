@@ -22,7 +22,7 @@ func (h *BaseHandler) AdminCommentReviewPage(ctx *fasthttp.RequestCtx) {
 	db := h.App.Db
 
 	evn := &admin.CommentEdit{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "待审核评论"
 	evn.PageName = "admin_comment_review"
@@ -56,7 +56,7 @@ func (h *BaseHandler) AdminCommentReviewPage(ctx *fasthttp.RequestCtx) {
 		author, _ = model.UserGetById(db, rec.UserId)
 	}
 	if author.ID == 0 {
-		author = curUser
+		author = evn.CurrentUser
 	}
 
 	evn.NodeLst = model.NodeGetAll(h.App.Mc, h.App.Db)

@@ -23,12 +23,12 @@ func (h *BaseHandler) UserSettingPage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &ybs.UserSetting{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "个人设置"
 
 	//
-	evn.User = curUser
+	evn.User = evn.CurrentUser
 
 	evn.NodeLst = model.NodeGetAll(h.App.Mc, h.App.Db)
 
@@ -71,7 +71,7 @@ func (h *BaseHandler) UserSettingPost(ctx *fasthttp.RequestCtx) {
 	db := h.App.Db
 
 	// 编辑
-	obj := curUser
+	obj := *curUser
 
 	if len(rec.Password) > 0 && len(rec.Password0) > 0 {
 		if rec.Password0 != obj.Password {

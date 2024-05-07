@@ -17,7 +17,7 @@ func (h *BaseHandler) MyMsgPage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &ybs.MyMsg{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "未读信息"
 

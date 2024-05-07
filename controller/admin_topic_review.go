@@ -19,7 +19,7 @@ func (h *BaseHandler) AdminTopicReviewPage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.TopicAdd{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "待审核帖子"
 	evn.PageName = "admin_topic_review"
@@ -53,7 +53,7 @@ func (h *BaseHandler) AdminTopicReviewPage(ctx *fasthttp.RequestCtx) {
 		author, _ = model.UserGetById(h.App.Db, rec.UserId)
 	}
 	if author.ID == 0 {
-		author = curUser
+		author = evn.CurrentUser
 	}
 
 	evn.DefaultTopic = model.Topic{

@@ -25,7 +25,7 @@ func (h *BaseHandler) AdminTopicAddPage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.TopicAdd{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "发表文章"
 	evn.PageName = "topic_input"
@@ -35,7 +35,7 @@ func (h *BaseHandler) AdminTopicAddPage(ctx *fasthttp.RequestCtx) {
 		NodeId: 1,
 		UserId: curUser.ID,
 	}
-	evn.DefaultUser = curUser
+	evn.DefaultUser = evn.CurrentUser
 	evn.HasMsg = model.MsgCheckHasOne(db, curUser.ID)
 	// evn.DefaultNode, _ = model.NodeGetById(h.App.Db, evn.DefaultTopic.NodeId)
 	// evn.DefaultNode = model.Node{}

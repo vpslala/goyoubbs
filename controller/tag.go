@@ -62,7 +62,7 @@ func (h *BaseHandler) TagPage(ctx *fasthttp.RequestCtx) {
 	evn := &ybs.TagPage{}
 	evn.SiteCf = scf
 	evn.Title = "Tag: " + tagRaw + " - " + scf.Name
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 
 	evn.Tag = tagLower
 	evn.NodeLst = model.NodeGetAll(h.App.Mc, db)

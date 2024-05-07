@@ -18,7 +18,7 @@ func (h *BaseHandler) AdminTopicEditPage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.TopicAdd{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "编辑帖子"
 	evn.PageName = "admin_topic_edit"
@@ -54,7 +54,7 @@ func (h *BaseHandler) AdminTopicEditPage(ctx *fasthttp.RequestCtx) {
 		author, _ = model.UserGetById(h.App.Db, rec.UserId)
 	}
 	if author.ID == 0 {
-		author = curUser
+		author = evn.CurrentUser
 	}
 
 	evn.ReadMoreBreak = model.ReadMoreBreak

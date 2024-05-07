@@ -57,7 +57,7 @@ func (h *BaseHandler) TopicDetailPage(ctx *fasthttp.RequestCtx) {
 	safeTitle := html.EscapeString(topic.Title)
 
 	evn := &ybs.TopicDetailPage{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = safeTitle + " - " + scf.Name
 	evn.Keywords = topic.Tags

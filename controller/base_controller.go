@@ -7,6 +7,7 @@ import (
 	"github.com/valyala/fasthttp"
 	"goyoubbs/model"
 	"net"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -57,26 +58,41 @@ func ReadUserIP(ctx *fasthttp.RequestCtx) string {
 	return ""
 }
 
-func (h *BaseHandler) CurrentUser(ctx *fasthttp.RequestCtx) (model.User, error) {
-	var user model.User
+func (h *BaseHandler) CurrentUser(ctx *fasthttp.RequestCtx) (*model.User, error) {
+	user := &model.User{}
 	ssValue := h.GetCookie(ctx, "SessionID")
 	if len(ssValue) == 0 {
 		return user, errors.New("SessionID cookie not found ")
 	}
-	z := strings.Split(ssValue, ":")
-	uid := z[0]
-	sessionID := z[1]
-
-	rs := h.App.Db.Hget(model.UserTbName, sdb.DS2b(uid))
-	if rs.State == "ok" {
-		_ = json.Unmarshal(rs.Data[0], &user)
-		if sessionID == user.Session {
-			_ = h.SetCookie(ctx, "SessionID", ssValue, 365)
-			return user, nil
+	index := strings.Index(ssValue, ":")
+	if index == -1 {
+		return user, errors.New("SessionID cookie not found ")
+	}
+	uId, _ := strconv.ParseUint(ssValue[:index], 10, 64)
+	if uId == 0 {
+		return user, errors.New("UserID is 0 ")
+	}
+	var ok bool
+	model.UserMapMux.RLock()
+	user, ok = model.UserMap[uId]
+	model.UserMapMux.RUnlock()
+	if !ok {
+		rs := h.App.Db.Hget(model.UserTbName, sdb.I2b(uId))
+		if rs.OK() {
+			_ = json.Unmarshal(rs.Data[0], &user)
+			if user.ID > 0 {
+				model.UserMapMux.Lock()
+				model.UserMap[uId] = user
+				model.UserMapMux.Unlock()
+			}
 		}
 	}
+	if user != nil {
+		_ = h.SetCookie(ctx, "SessionID", ssValue, 365)
+		return user, nil
+	}
 
-	return user, errors.New("user not found")
+	return &model.User{}, errors.New("user not found")
 }
 
 func (h *BaseHandler) SetCookie(ctx *fasthttp.RequestCtx, name, value string, days int) error {

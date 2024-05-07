@@ -20,7 +20,7 @@ func (h *BaseHandler) AdminSiteRouterPage(ctx *fasthttp.RequestCtx) {
 	scf := h.App.Cf.Site
 
 	evn := &admin.SiteRouter{}
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 	evn.SiteCf = scf
 	evn.Title = "自定义路由"
 	evn.PageName = "admin_site_router"

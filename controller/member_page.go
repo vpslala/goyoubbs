@@ -102,7 +102,7 @@ func (h *BaseHandler) MemberPage(ctx *fasthttp.RequestCtx) {
 	evn := &ybs.MemberPage{}
 	evn.SiteCf = scf
 	evn.Title = "会员: " + user.Name + " 最近" + titleText + " - " + scf.Name
-	evn.CurrentUser = curUser
+	evn.CurrentUser = *curUser
 
 	evn.NodeLst = model.NodeGetAll(h.App.Mc, db)
 	evn.TopicPageInfo = topicPageInfo
