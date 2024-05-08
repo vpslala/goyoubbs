@@ -2,11 +2,12 @@ package controller
 
 import (
 	"github.com/valyala/fasthttp"
+	"goyoubbs/model"
 )
 
 func (h *BaseHandler) AdminHomePage(ctx *fasthttp.RequestCtx) {
 	curUser, _ := h.CurrentUser(ctx)
-	if curUser.ID == 0 {
+	if curUser.Flag < model.FlagAdmin {
 		ctx.Redirect(h.App.Cf.Site.MainDomain+"/login", 302)
 		return
 	}

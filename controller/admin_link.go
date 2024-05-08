@@ -11,7 +11,7 @@ import (
 func (h *BaseHandler) AdminLinkPage(ctx *fasthttp.RequestCtx) {
 	curUser, _ := h.CurrentUser(ctx)
 	if curUser.Flag < model.FlagAdmin {
-		ctx.Redirect(h.App.Cf.Site.MainDomain+"/login", 302)
+		ctx.Redirect(h.App.Cf.Site.MainDomain+"/admin", 302)
 		return
 	}
 

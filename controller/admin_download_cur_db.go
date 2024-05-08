@@ -8,6 +8,7 @@ import (
 	"github.com/syndtr/goleveldb/leveldb/opt"
 	ldbUtil "github.com/syndtr/goleveldb/leveldb/util"
 	"github.com/valyala/fasthttp"
+	"goyoubbs/model"
 	"goyoubbs/util"
 	"io"
 	"log"
@@ -19,8 +20,8 @@ import (
 
 func (h *BaseHandler) AdminCurDbPage(ctx *fasthttp.RequestCtx) {
 	curUser, _ := h.CurrentUser(ctx)
-	if curUser.ID == 0 {
-		ctx.Redirect(h.App.Cf.Site.MainDomain+"/login", 302)
+	if curUser.Flag < model.FlagAdmin {
+		ctx.Redirect(h.App.Cf.Site.MainDomain+"/admin", 302)
 		return
 	}
 

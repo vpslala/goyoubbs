@@ -17,7 +17,7 @@ import (
 func (h *BaseHandler) AdminTopicAddPage(ctx *fasthttp.RequestCtx) {
 	curUser, _ := h.CurrentUser(ctx)
 	if curUser.Flag < model.FlagAuthor {
-		ctx.Redirect(h.App.Cf.Site.MainDomain+"/login", 302)
+		ctx.Redirect(h.App.Cf.Site.MainDomain+"/admin", 302)
 		return
 	}
 

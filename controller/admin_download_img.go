@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/valyala/fasthttp"
+	"goyoubbs/model"
 	"goyoubbs/util"
 	"log"
 	"os"
@@ -10,8 +11,8 @@ import (
 
 func (h *BaseHandler) AdminImgPage(ctx *fasthttp.RequestCtx) {
 	curUser, _ := h.CurrentUser(ctx)
-	if curUser.ID == 0 {
-		ctx.Redirect(h.App.Cf.Site.MainDomain+"/login", 302)
+	if curUser.Flag < model.FlagAdmin {
+		ctx.Redirect(h.App.Cf.Site.MainDomain+"/admin", 302)
 		return
 	}
 
