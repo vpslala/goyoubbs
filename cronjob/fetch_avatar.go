@@ -135,7 +135,7 @@ func FetchAvatar(db *sdb.DB, uid uint64, targetUrl, saveFilePath, ua, sock5Str s
 
 	// save to local
 	/*
-		err = ioutil.WriteFile(saveFilePath, body, 0644)
+		err = os.WriteFile(saveFilePath, body, 0644)
 		if err != nil {
 			log.Println("WriteFile err", err)
 			return err

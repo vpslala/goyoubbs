@@ -128,7 +128,7 @@ func (h *BaseHandler) TopicIconHandle(ctx *fasthttp.RequestCtx) {
 	})
 
 	//for _, v := range uIds {
-	//	dat, err := ioutil.ReadFile("static/avatar/" + strconv.Itoa(v) + ".jpg")
+	//	dat, err := os.ReadFile("static/avatar/" + strconv.Itoa(v) + ".jpg")
 	//	if err != nil {
 	//		log.Println("Read avatar err", err)
 	//		continue

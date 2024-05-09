@@ -3,8 +3,8 @@ package controller
 import (
 	"bytes"
 	"github.com/valyala/fasthttp"
-	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 var defaultRobots = `User-agent: *
@@ -13,7 +13,7 @@ Disallow: /admin
 
 func (h *BaseHandler) Robots(ctx *fasthttp.RequestCtx) {
 	ctx.SetContentType("text/plain; charset=utf-8")
-	buf, err := ioutil.ReadFile("static/robots.txt")
+	buf, err := os.ReadFile("static/robots.txt")
 	if err != nil {
 		_, _ = ctx.WriteString(defaultRobots + "\nSitemap: " + h.App.Cf.Site.MainDomain + "/sitemap.xml")
 		return
@@ -26,7 +26,7 @@ func (h *BaseHandler) Robots(ctx *fasthttp.RequestCtx) {
 
 func (h *BaseHandler) Ads(ctx *fasthttp.RequestCtx) {
 	ctx.SetContentType("text/plain; charset=utf-8")
-	buf, err := ioutil.ReadFile("static/ads.txt")
+	buf, err := os.ReadFile("static/ads.txt")
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusNotFound)
 		_, _ = ctx.WriteString("404: not found")
@@ -37,7 +37,7 @@ func (h *BaseHandler) Ads(ctx *fasthttp.RequestCtx) {
 
 func (h *BaseHandler) StaticFile(ctx *fasthttp.RequestCtx) {
 	filePath := ctx.UserValue("filepath").(string)
-	buf, err := ioutil.ReadFile("static/" + filePath)
+	buf, err := os.ReadFile("static/" + filePath)
 	if err != nil {
 		ctx.SetContentType("text/plain; charset=utf-8")
 		ctx.SetStatusCode(fasthttp.StatusNotFound)
@@ -51,7 +51,7 @@ func (h *BaseHandler) StaticFile(ctx *fasthttp.RequestCtx) {
 
 func (h *BaseHandler) ShowIcon(ctx *fasthttp.RequestCtx) {
 	ctx.SetContentType("image/png")
-	buf, err := ioutil.ReadFile("static/logo.png")
+	buf, err := os.ReadFile("static/logo.png")
 	if err != nil {
 		ctx.NotFound()
 		return

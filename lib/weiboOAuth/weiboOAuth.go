@@ -3,7 +3,7 @@ package weiboOAuth
 import (
 	"errors"
 	"github.com/ego008/goutils/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -89,7 +89,7 @@ func (oauth *OAuth) GetAccessToken(code string) (*OAuthToken, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -125,7 +125,7 @@ func (oauth *OAuth) GetUserInfo(accessToken, uid string) (*UserInfo, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

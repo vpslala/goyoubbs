@@ -3,7 +3,7 @@ package qqOAuth
 import (
 	"errors"
 	"github.com/ego008/goutils/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -103,7 +103,7 @@ func (oauth *OAuth) GetAccessToken(code string) (*OAuthToken, error) {
 	}
 	defer resp.Body.Close()
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -144,7 +144,7 @@ func (oauth *OAuth) GetOpenID(accessToken string) (*OpenID, error) {
 	}
 	defer resp.Body.Close()
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -190,7 +190,7 @@ func (oauth *OAuth) GetUserInfo(accessToken string, openID string) (*UserInfo, e
 	}
 	defer resp.Body.Close()
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

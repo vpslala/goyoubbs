@@ -9,7 +9,6 @@ import (
 	"github.com/valyala/fasthttp"
 	"goyoubbs/model"
 	"goyoubbs/util"
-	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -133,7 +132,7 @@ func (h *BaseHandler) SitemapIndexHandler(ctx *fasthttp.RequestCtx) {
 
 	filename := "static/sitemap/" + xmlFile
 	var buf []byte
-	buf, err = ioutil.ReadFile(filename)
+	buf, err = os.ReadFile(filename)
 	if err == nil {
 		// get sitemap_x.xml mtime
 		var fileInfo os.FileInfo
@@ -207,7 +206,7 @@ func (h *BaseHandler) SitemapIndexHandler(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
-	buf, err = ioutil.ReadFile("static/sitemap/" + xmlFile)
+	buf, err = os.ReadFile("static/sitemap/" + xmlFile)
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		return
