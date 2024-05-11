@@ -2,6 +2,7 @@ package controller
 
 import (
 	"bytes"
+	"errors"
 	"github.com/ego008/captcha"
 	"github.com/valyala/fasthttp"
 	"path"
@@ -26,7 +27,7 @@ func (h *BaseHandler) CaptchaHandle(ctx *fasthttp.RequestCtx) {
 	}
 	lang := strings.ToLower(string(ctx.FormValue("lang")))
 	download := path.Base(dir) == "download"
-	if captchaServeFastHTTP(ctx, id, ext, lang, download) == captcha.ErrNotFound {
+	if errors.Is(captchaServeFastHTTP(ctx, id, ext, lang, download), captcha.ErrNotFound) {
 		ctx.NotFound()
 	}
 }
