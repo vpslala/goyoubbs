@@ -77,75 +77,93 @@ func (p *Node) StreamMainBody(qw422016 *qt422016.Writer) {
     </form>
 
     <h2>节点列表</h2>
-    <ul>
-        <li class="bot-line">
-            ID - Name - Score - About
-        </li>
-        `)
-//line views/admin/node.qtpl:42
-	for _, v := range p.NodeLst {
-//line views/admin/node.qtpl:42
-		qw422016.N().S(`
-        <li class="bot-line">
-            `)
-//line views/admin/node.qtpl:44
-		qw422016.N().DUL(v.ID)
-//line views/admin/node.qtpl:44
-		qw422016.N().S(` - <a href="/admin/node?id=`)
-//line views/admin/node.qtpl:44
-		qw422016.N().DUL(v.ID)
-//line views/admin/node.qtpl:44
-		qw422016.N().S(`">`)
-//line views/admin/node.qtpl:44
-		qw422016.E().S(v.Name)
-//line views/admin/node.qtpl:44
-		qw422016.N().S(`</a> - `)
-//line views/admin/node.qtpl:44
-		qw422016.N().D(v.Score)
-//line views/admin/node.qtpl:44
-		qw422016.N().S(` - `)
-//line views/admin/node.qtpl:44
-		qw422016.E().S(v.About)
-//line views/admin/node.qtpl:44
-		qw422016.N().S(`
-        </li>
-        `)
-//line views/admin/node.qtpl:46
-	}
-//line views/admin/node.qtpl:46
-	qw422016.N().S(`
-    </ul>
 
+    <table class="pure-table">
+        <thead>
+            <tr>
+                <th>#ID</th>
+                <th>Name</th>
+                <th>Score</th>
+                <th>About</th>
+            </tr>
+        </thead>
+        <tbody>
+            `)
+//line views/admin/node.qtpl:49
+	for i, v := range p.NodeLst {
+//line views/admin/node.qtpl:49
+		qw422016.N().S(`
+            <tr `)
+//line views/admin/node.qtpl:50
+		if i%2 == 0 {
+//line views/admin/node.qtpl:50
+			qw422016.N().S(`class="pure-table-odd"`)
+//line views/admin/node.qtpl:50
+		}
+//line views/admin/node.qtpl:50
+		qw422016.N().S(`>
+                <td>`)
+//line views/admin/node.qtpl:51
+		qw422016.N().DUL(v.ID)
+//line views/admin/node.qtpl:51
+		qw422016.N().S(`</td>
+                <td><a href="/admin/node?id=`)
+//line views/admin/node.qtpl:52
+		qw422016.N().DUL(v.ID)
+//line views/admin/node.qtpl:52
+		qw422016.N().S(`">`)
+//line views/admin/node.qtpl:52
+		qw422016.E().S(v.Name)
+//line views/admin/node.qtpl:52
+		qw422016.N().S(`</a></td>
+                <td>`)
+//line views/admin/node.qtpl:53
+		qw422016.N().D(v.Score)
+//line views/admin/node.qtpl:53
+		qw422016.N().S(`</td>
+                <td>`)
+//line views/admin/node.qtpl:54
+		qw422016.E().S(v.About)
+//line views/admin/node.qtpl:54
+		qw422016.N().S(`</td>
+            </tr>
+            `)
+//line views/admin/node.qtpl:56
+	}
+//line views/admin/node.qtpl:56
+	qw422016.N().S(`
+        </tbody>
+    </table>
 
     </div>
 </div>
 
 `)
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 }
 
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 func (p *Node) WriteMainBody(qq422016 qtio422016.Writer) {
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 	p.StreamMainBody(qw422016)
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 	qt422016.ReleaseWriter(qw422016)
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 }
 
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 func (p *Node) MainBody() string {
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 	p.WriteMainBody(qb422016)
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 	qs422016 := string(qb422016.B)
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 	return qs422016
-//line views/admin/node.qtpl:53
+//line views/admin/node.qtpl:63
 }
