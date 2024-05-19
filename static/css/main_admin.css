@@ -423,7 +423,7 @@ footer ul.seealso {margin: 0;padding: .5em 0;list-style: none;color: #ccc;font-f
 .markdown-body blockquote{padding:0 1em;color:#6a737d;border-left:0.25em solid #dfe2e5}
 .markdown-body blockquote > :first-child{margin-top:0}
 .markdown-body blockquote > :last-child{margin-bottom:0}
-.markdown-body table{display:block;width:100%;overflow:auto}
+.markdown-body table{display:inline-block;width:auto;overflow:auto}
 
 .markdown-body .line-numbers {color: #ccc;background-color: #fefefe;}
 .markdown-body figcaption {color: #ccc;font-size: .85em;}
@@ -556,45 +556,46 @@ footer ul.seealso {margin: 0;padding: .5em 0;list-style: none;color: #ccc;font-f
     font-size: 16px;
 }
 
-
 .markdown-body table {
-    padding: 0;
     border-collapse: collapse;
     border-spacing: 0;
-    font: inherit;
-    border: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb;
+}
+
+.markdown-body table caption {
+    color: #000;
+    font: italic 85%/1 arial, sans-serif;
+    padding: 1em 0;
+    text-align: center;
+}
+
+.markdown-body table td,
+.markdown-body table th {
+    border-left: 1px solid #cbcbcb;
+    border-width: 0 0 0 1px;
+    font-size: inherit;
     margin: 0;
-    width: 100%;
+    overflow: visible;
+    padding: 0.5em 1em;
 }
 
-.markdown-body tbody {
-    margin: 0;
-    padding: 0;
-    border: 0;
+.markdown-body table thead {
+    background-color: #e0e0e0;
+    color: #000;
+    text-align: left;
+    vertical-align: bottom;
 }
 
-.markdown-body table tr {
-    border: 0;
-    background-color: white;
-    margin: 0;
-    padding: 0;
+.markdown-body table td {
+    background-color: transparent;
+}
+.markdown-body .pure-table-odd td {
+    background-color: #f2f2f2;
 }
 
-.markdown-body table tr:nth-child(2n) {
-    background-color: #F8F8F8;
-}
-
-.markdown-body table tr th, .markdown-body table tr td {
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
-}
-
-.markdown-body table tr th {
-    font-weight: bold;
-    color: #eee;
-    border: 1px solid #ccc;
-    background-color: #009688;
+.markdown-body table tr:nth-child(2n-1) td {
+    background-color: #f2f2f2;
 }
 
 figure .highlight .line-numbers pre {color: #93a1a1}
