@@ -83,16 +83,32 @@
     </form>
 
     <h2>列表</h2>
-    <ul>
-        <li class="bot-line">
-            ID - Name - Flag - Url - About - addTime
-        </li>
-        {% for _, v := range p.UserLst %}
-        <li class="bot-line">
-            {%dul v.ID %} - <a href="/admin/user?id={%dul v.ID %}">{%s v.Name %}</a> - {%d v.Flag %} - {%s v.Url %} - {%s v.About %} - {%s util.TimeFmt(int64(v.RegTime), "") %}
-        </li>
-        {% endfor %}
-    </ul>
+
+    <table class="pure-table">
+        <thead>
+            <tr>
+                <th>#ID</th>
+                <th>Name</th>
+                <th>Flag</th>
+                <th>Url</th>
+                <th>About</th>
+                <th>addTime</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i, v := range p.UserLst %}
+            <tr {% if i%2 == 0 %}class="pure-table-odd"{% endif %}>
+                <td>{%dul v.ID %}</td>
+                <td><a href="/admin/user?id={%dul v.ID %}">{%s v.Name %}</a></td>
+                <td>{%d v.Flag %}</td>
+                <td>{%s v.Url %}</td>
+                <td>{%s v.About %}</td>
+                <td>{%s util.TimeFmt(int64(v.RegTime), "") %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 </div>
 </div>
 
