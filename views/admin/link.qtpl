@@ -33,16 +33,26 @@
 
     <h2>链接列表</h2>
 
-    <ul>
-        <li class="bot-line">
-            ID - Name - Score - Url
-        </li>
-        {% for _, v := range p.LinkLst %}
-        <li class="bot-line">
-            {%dul v.ID %} - <a href="/admin/link?id={%dul v.ID %}">{%s v.Name %}</a> - {%d v.Score %} - {%s v.Url %}
-        </li>
-        {% endfor %}
-    </ul>
+        <table class="pure-table">
+            <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i, v := range p.LinkLst %}
+                <tr {% if i%2 == 0 %}class="pure-table-odd"{% endif %}>
+                    <td>{%dul v.ID %}</td>
+                    <td><a href="/admin/link?id={%dul v.ID %}">{%s v.Name %}</a></td>
+                    <td>{%d v.Score %}</td>
+                    <td>{%s v.Url %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
     </div>
 </div>
