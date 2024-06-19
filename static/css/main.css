@@ -135,8 +135,9 @@ h1.br-nav, h2.br-nav, h3.br-nav, h4.br-nav {color:#777;font-size: 1em;font-weigh
 .home-menu {background-color: #373737;}
 .home-menu img.avatar {width: 18px;height: 18px;vertical-align: middle;}
 .home-menu a {color: #fff;}
-.home-menu a:hover {color: #000;background-color: #fff}
+.home-menu a:hover {color: #000;}
 .home-menu ul {float: right;}
+.home-menu .pure-menu-children a {color: #666;}
 
 .main-wrap {margin: 1.2em 0;}
 .main-left-body {padding: 0;margin: 0 1.618em 1.2em 0;}
