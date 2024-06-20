@@ -25,7 +25,7 @@ func Xxhash(s []byte) uint64 {
 // https://stackoverflow.com/questions/tagged/go?tab=newest&page=2922&pagesize=15
 // -> https://stackoverflow.com stackoverflow.com
 func GetDomainFromURL(fullURL string) (bsURL, host string) {
-	urls := strings.Split(fullURL, "/")
+	urls := StringSplit(fullURL, "/")
 	if len(urls) > 2 {
 		host = urls[2]
 	} else {
@@ -40,7 +40,7 @@ func SliceUniqStr(s, sep string) string {
 	if len(sep) == 0 {
 		sep = ","
 	}
-	ss := strings.Split(s, sep)
+	ss := StringSplit(s, sep)
 	seen := make(map[string]struct{}, len(ss))
 	j := 0
 	for _, v := range ss {
@@ -73,7 +73,7 @@ func IpTrimRightDot(s string) string {
 	}
 	s = s[:len(s)-1]
 
-	ss := strings.Split(s, ".")
+	ss := StringSplit(s, ".")
 	lastPn, _ := strconv.Atoi(ss[len(ss)-1])
 	if lastPn > 25 {
 		return s
@@ -101,4 +101,20 @@ func TenTo62(id uint64) string {
 		}
 	}
 	return string(shortUrl)
+}
+
+// StringSplit same as strings.Split
+func StringSplit(str string, sep string) []string {
+	var words []string
+	var eoc int
+	for eoc != -1 {
+		eoc = strings.Index(str, sep)
+		if eoc == -1 {
+			words = append(words, str)
+			break
+		}
+		words = append(words, str[:eoc])
+		str = str[eoc+len(sep):]
+	}
+	return words
 }

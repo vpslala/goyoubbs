@@ -6,6 +6,7 @@ import (
 	"github.com/ego008/sdb"
 	"github.com/valyala/fasthttp"
 	"goyoubbs/model"
+	"goyoubbs/util"
 	"net"
 	"strconv"
 	"strings"
@@ -28,7 +29,7 @@ func ReadUserIP(ctx *fasthttp.RequestCtx) string {
 	}
 
 	ips := string(ctx.Request.Header.Peek(fasthttp.HeaderXForwardedFor))
-	splitIps := strings.Split(ips, ",")
+	splitIps := util.StringSplit(ips, ",")
 	for _, ip := range splitIps {
 		netIP = net.ParseIP(ip)
 		if netIP != nil {
@@ -37,7 +38,7 @@ func ReadUserIP(ctx *fasthttp.RequestCtx) string {
 	}
 
 	ips = string(ctx.Request.Header.Peek("X-FORWARDED-FOR"))
-	splitIps = strings.Split(ips, ",")
+	splitIps = util.StringSplit(ips, ",")
 	for _, ip := range splitIps {
 		netIP = net.ParseIP(ip)
 		if netIP != nil {

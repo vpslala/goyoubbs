@@ -59,7 +59,7 @@ func (h *BaseHandler) AdminRateLimitSettingPost(ctx *fasthttp.RequestCtx) {
 		// reset stValue
 		if v == model.SettingKeyAllowIp || v == model.SettingKeyBadIp {
 			var lis []string
-			for _, ip := range strings.Split(stValue, ",") {
+			for _, ip := range util.StringSplit(stValue, ",") {
 				lis = append(lis, util.IpTrimRightDot(ip))
 			}
 			stValue = strings.Join(lis, ",")

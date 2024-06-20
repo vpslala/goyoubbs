@@ -4,6 +4,7 @@ import (
 	"github.com/ego008/goutils/json"
 	"github.com/ego008/sdb"
 	"goyoubbs/model"
+	"goyoubbs/util"
 	"log"
 	"net"
 	"sort"
@@ -79,7 +80,7 @@ func spiderIpCheck(db *sdb.DB) {
 
 	var prefix string
 	if isGood {
-		ss := strings.Split(obj.Ip, ".")
+		ss := util.StringSplit(obj.Ip, ".")
 		prefix = strings.Join(ss[:2], ".") // get two part
 		lastPn, _ := strconv.Atoi(ss[1])
 		if lastPn < 26 {
@@ -93,7 +94,7 @@ func spiderIpCheck(db *sdb.DB) {
 
 	if len(prefix) > 0 {
 		// auto add prefix to AllowIpPrefixLst
-		ips := strings.Split(db.Hget(model.TbnSetting, wkeyB).String(), ",")
+		ips := util.StringSplit(db.Hget(model.TbnSetting, wkeyB).String(), ",")
 		for _, ip := range ips {
 			if strings.HasPrefix(ip, prefix) {
 				addPrefixToWhite = false

@@ -59,7 +59,7 @@ func tableCode(text, lang string) string {
 	text = strings.TrimSpace(text)
 	var codes []string
 	var lines []string
-	for i, line := range strings.Split(text, "\n") {
+	for i, line := range StringSplit(text, "\n") {
 		lines = append(lines, fmt.Sprintf(`<span class="line-number">%d</span>`, i+1))
 		codes = append(codes, fmt.Sprintf(`<span class="line">%s</span>`, line))
 	}
@@ -105,7 +105,7 @@ func ContentFmt(input string) string {
 		input = codeBlockRegexp.ReplaceAllStringFunc(input, func(s string) string {
 			s = strings.TrimSpace(s) // important
 			// 获取并代码头部信息及处理代码高亮 html 代码
-			lines := strings.Split(s, "\n")
+			lines := StringSplit(s, "\n")
 			// 至少 3 行
 			if len(lines) >= 3 {
 				caption := ""        // title
@@ -213,7 +213,7 @@ func GetDesc(input string) (des string) {
 		return
 	}
 
-	firstBrCon := strings.Split(input, "\n")[0]
+	firstBrCon := StringSplit(input, "\n")[0]
 
 	if len(firstBrCon) > limit {
 		runeCon := []rune(firstBrCon)

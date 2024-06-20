@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/ego008/sdb"
+	"goyoubbs/util"
 	"strings"
 )
 
@@ -50,7 +51,7 @@ func UpdateBadBotName(db *sdb.DB) {
 	// BadBotNameMap
 	if rs := db.Hget(TbnSetting, sdb.S2b(SettingKeyBadBot)); rs.OK() {
 		curMap := Map{}
-		for _, line := range strings.Split(string(rs.Data[0]), ",") {
+		for _, line := range util.StringSplit(string(rs.Data[0]), ",") {
 			line = strings.TrimSpace(line)
 			if len(line) == 0 {
 				continue
@@ -69,7 +70,7 @@ func UpdateBadIpPrefix(db *sdb.DB) {
 	if rs := db.Hget(TbnSetting, sdb.S2b(SettingKeyBadIp)); rs.OK() {
 		var tmpLst []string
 		kMap := map[string]struct{}{}
-		for _, line := range strings.Split(string(rs.Data[0]), ",") {
+		for _, line := range util.StringSplit(string(rs.Data[0]), ",") {
 			line = strings.TrimSpace(line)
 			if len(line) == 0 {
 				continue
@@ -88,7 +89,7 @@ func UpdateAllowIpPrefix(db *sdb.DB) {
 	if rs := db.Hget(TbnSetting, sdb.S2b(SettingKeyAllowIp)); rs.OK() {
 		var tmpLst []string
 		kMap := map[string]struct{}{}
-		for _, line := range strings.Split(string(rs.Data[0]), ",") {
+		for _, line := range util.StringSplit(string(rs.Data[0]), ",") {
 			line = strings.TrimSpace(line)
 			if len(line) == 0 {
 				continue

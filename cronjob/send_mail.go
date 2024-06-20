@@ -6,10 +6,10 @@ import (
 	"github.com/ego008/goutils/json"
 	"github.com/ego008/sdb"
 	"goyoubbs/model"
+	"goyoubbs/util"
 	"log"
 	"net"
 	"net/smtp"
-	"strings"
 )
 
 func sendMail(db *sdb.DB, scf *model.SiteConf) {
@@ -39,7 +39,7 @@ func sendMail(db *sdb.DB, scf *model.SiteConf) {
 
 	header := make(map[string]string)
 
-	fromName := strings.Split(email, "@")[0]
+	fromName := util.StringSplit(email, "@")[0]
 	header["From"] = fromName + "<" + email + ">"
 	header["To"] = toEmail
 	header["Subject"] = subject

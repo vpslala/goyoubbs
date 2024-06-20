@@ -6,7 +6,6 @@ import (
 	"github.com/ego008/sdb"
 	"goyoubbs/util"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -193,7 +192,7 @@ func CommentGetRecent(mc *fastcache.Cache, db *sdb.DB, limit int) (objLst []Comm
 	commentMap := map[string]Comment{}       // tidCid:Comment
 	topicCommentMap := map[string][][]byte{} // topicIdStr: [][]byte(commentId) // 无序
 	db.Hrscan("recent_comment", nil, limit).KvEach(func(key, value sdb.BS) {
-		tidStr := strings.Split(key.String(), "_")[1]
+		tidStr := util.StringSplit(key.String(), "_")[1]
 		k := CommentTbName + tidStr
 		tidCid := tidStr + "_" + strconv.FormatUint(sdb.B2i(value.Bytes()), 10)
 		sortKeyLst = append(sortKeyLst, tidCid)

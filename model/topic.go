@@ -170,7 +170,7 @@ func TopicDel(mc *fastcache.Cache, db *sdb.DB, obj Topic) {
 	// 标签
 	if len(obj.Tags) > 0 {
 		// 删除标签，参见 cronjob/topic_tag
-		for _, tag := range strings.Split(obj.Tags, ",") {
+		for _, tag := range util.StringSplit(obj.Tags, ",") {
 			tagLower := strings.ToLower(tag)
 			tagLowerB := sdb.S2b(tagLower)
 			_ = db.Hdel("tag:"+tagLower, sdb.I2b(obj.ID))
@@ -239,7 +239,7 @@ func TopicGetRelative(mc *fastcache.Cache, db *sdb.DB, aid uint64, tags string) 
 
 	aidCount := map[uint64]int{}
 
-	for _, tag := range strings.Split(tagsLow, ",") {
+	for _, tag := range util.StringSplit(tagsLow, ",") {
 		rs := db.Hrscan("tag:"+tag, nil, scanMax)
 		if rs.KvLen() > 0 {
 			for i := 0; i < len(rs.Data)-1; i += 2 {
@@ -478,7 +478,7 @@ func GetTopicListArchives(db *sdb.DB, cmd, tb, key string, limit int) TopicPageI
 
 		addYearMap := map[string]struct{}{}
 		for _, article := range aitems {
-			addTimeLst := strings.Split(util.TimeFmt(article.AddTime, "2006 Jan 02"), " ")
+			addTimeLst := util.StringSplit(util.TimeFmt(article.AddTime, "2006 Jan 02"), " ")
 			item := TopicLstLi{
 				Topic:       article,
 				FirstCon:    util.GetDesc(article.Content),
@@ -605,7 +605,7 @@ func SearchTopicList(mc *fastcache.Cache, db *sdb.DB, q string, limit int) (tInf
 
 	addYearMap := map[string]struct{}{}
 	for _, article := range aitems {
-		addTimeLst := strings.Split(util.TimeFmt(article.AddTime, "2006 Jan 02"), " ")
+		addTimeLst := util.StringSplit(util.TimeFmt(article.AddTime, "2006 Jan 02"), " ")
 		article.Comments, _ = commentsMap[article.ID]
 		item := TopicLstLi{
 			Topic:       article,

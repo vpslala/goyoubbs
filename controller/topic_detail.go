@@ -162,7 +162,7 @@ func (h *BaseHandler) TopicDetailPage(ctx *fasthttp.RequestCtx) {
 	evn.DefaultNode = node
 	evn.OldTopic, evn.NewTopic = model.ArticleGetNearby(db, topic.ID)
 	if len(topic.Tags) > 0 {
-		for _, v := range strings.Split(topic.Tags, ",") {
+		for _, v := range util.StringSplit(topic.Tags, ",") {
 			evn.TagLst = append(evn.TagLst, model.TagFontSize{
 				Name: v,
 				Size: 0,
