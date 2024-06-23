@@ -63,19 +63,21 @@ Page prints a page implementing Page interface.
 <footer role="contentinfo">
     {%= p.Footer() %}
 </footer>
-<a style="display: none; " rel="nofollow" href="#top" id="go-to-top">▲</a>
+<a rel="nofollow" href="#top" class="top" id="go-to-top">▲</a>
 <script>
-document.addEventListener("scroll", handleScroll);
-let scrollToTopBtn = document.getElementById("go-to-top");
-scrollToTopBtn.addEventListener("click", scrollToTop);
-
-function handleScroll() {
-    if (document.documentElement.scrollTop > 300) {
-        scrollToTopBtn.style.display = "block";
-    } else if (document.documentElement.scrollTop < 300){
-        scrollToTopBtn.style.display = "none";
-    }
-}
+(function (window, document) {
+    let scrollToTopBtn = document.getElementById("go-to-top");
+    document.addEventListener("scroll", function () {
+        let top = window.scrollY || document.documentElement.scrollTop;
+        scrollToTopBtn.classList.toggle('visible', top > 1000);
+    });
+    scrollToTopBtn.addEventListener("click", function () {
+         window.scrollTo({
+             top: 0,
+             behavior: "smooth"
+         });
+    });
+})(this, this.document);
 </script>
 </body>
 </html>

@@ -51,10 +51,3 @@ function postAjax(url, data, success) {
     xhr.send(data);
     return xhr;
 }
-
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}

@@ -345,16 +345,15 @@ body>footer a:hover {color: #eee}
 .tag_meta {color: #ccc;font-size: 12px;}
 .rsptime {padding: 0 .5em .5em .5em;background-image:none;border-bottom:none;font-size: .85em;color: #778899;background-color: var(--bar-bg-color);}
 
-#go-to-top {
-    display: none;
+a.top {
+    font-size: 0;
+    font-family: Helvetica,Arial,Verdana,sans-serif;
     position: fixed;
-    right: 60px;
     bottom: 100px;
+    font-weight: bold;
     padding: 10px;
-    color: #666;
-    background: #DDD;
-    font: 24px/12px Helvetica,Arial,Verdana,sans-serif;
-    opacity: 0.7;
+    right: 1.618em;
+    margin-bottom: 0;
     outline: 0 none;
     text-decoration: none;
     text-shadow: 0 0 1px #DDD;
@@ -363,7 +362,14 @@ body>footer a:hover {color: #eee}
     -khtml-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+    transition: all .3s ease;
+    text-align: center;
+    color: #666;
+    background: rgba(255, 255, 255, .5);
 }
+a.top.visible {font-size: 24px;}
+a.top:hover{background: rgba(200, 200, 200, .8);}
+
 #id-msg {color: rgb(202, 60, 60);}
 #tag-cloud .tag_meta {font-style: italic}
 

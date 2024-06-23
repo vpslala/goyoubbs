@@ -141,202 +141,204 @@ func StreamPageTemplate(qw422016 *qt422016.Writer, p Page) {
 //line views/ybs/base.qtpl:64
 	qw422016.N().S(`
 </footer>
-<a style="display: none; " rel="nofollow" href="#top" id="go-to-top">▲</a>
+<a rel="nofollow" href="#top" class="top" id="go-to-top">▲</a>
 <script>
-document.addEventListener("scroll", handleScroll);
-let scrollToTopBtn = document.getElementById("go-to-top");
-scrollToTopBtn.addEventListener("click", scrollToTop);
-
-function handleScroll() {
-    if (document.documentElement.scrollTop > 300) {
-        scrollToTopBtn.style.display = "block";
-    } else if (document.documentElement.scrollTop < 300){
-        scrollToTopBtn.style.display = "none";
-    }
-}
+(function (window, document) {
+    let scrollToTopBtn = document.getElementById("go-to-top");
+    document.addEventListener("scroll", function () {
+        let top = window.scrollY || document.documentElement.scrollTop;
+        scrollToTopBtn.classList.toggle('visible', top > 1000);
+    });
+    scrollToTopBtn.addEventListener("click", function () {
+         window.scrollTo({
+             top: 0,
+             behavior: "smooth"
+         });
+    });
+})(this, this.document);
 </script>
 </body>
 </html>
 `)
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 }
 
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 func WritePageTemplate(qq422016 qtio422016.Writer, p Page) {
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 	StreamPageTemplate(qw422016, p)
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 }
 
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 func PageTemplate(p Page) string {
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 	WritePageTemplate(qb422016, p)
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 	return qs422016
-//line views/ybs/base.qtpl:82
+//line views/ybs/base.qtpl:84
 }
 
 // Header bg
 
-//line views/ybs/base.qtpl:86
+//line views/ybs/base.qtpl:88
 func (p *BasePage) StreamHeader(qw422016 *qt422016.Writer) {
-//line views/ybs/base.qtpl:86
+//line views/ybs/base.qtpl:88
 	qw422016.N().S(`
 <title>`)
-//line views/ybs/base.qtpl:87
+//line views/ybs/base.qtpl:89
 	qw422016.E().S(p.Title)
-//line views/ybs/base.qtpl:87
+//line views/ybs/base.qtpl:89
 	qw422016.N().S(`</title>
 <meta name="description" content="`)
-//line views/ybs/base.qtpl:88
+//line views/ybs/base.qtpl:90
 	qw422016.E().S(p.Description)
-//line views/ybs/base.qtpl:88
+//line views/ybs/base.qtpl:90
 	qw422016.N().S(`">
 <meta name="keywords" content="`)
-//line views/ybs/base.qtpl:89
+//line views/ybs/base.qtpl:91
 	qw422016.E().S(p.Keywords)
-//line views/ybs/base.qtpl:89
+//line views/ybs/base.qtpl:91
 	qw422016.N().S(`">
 <link rel="canonical" href="`)
-//line views/ybs/base.qtpl:90
+//line views/ybs/base.qtpl:92
 	qw422016.E().S(p.Canonical)
-//line views/ybs/base.qtpl:90
+//line views/ybs/base.qtpl:92
 	qw422016.N().S(`">
 <link href="/feed" rel="alternate" title="`)
-//line views/ybs/base.qtpl:91
+//line views/ybs/base.qtpl:93
 	qw422016.E().S(p.SiteCf.Name)
-//line views/ybs/base.qtpl:91
+//line views/ybs/base.qtpl:93
 	qw422016.N().S(`" type="application/atom+xml">
 <link rel="stylesheet" href="/static/css/main.css?v=`)
-//line views/ybs/base.qtpl:92
+//line views/ybs/base.qtpl:94
 	qw422016.E().S(p.SiteCf.SelfHash)
-//line views/ybs/base.qtpl:92
+//line views/ybs/base.qtpl:94
 	qw422016.N().S(`" type="text/css">
 <script src="/static/js/main.js?v=`)
-//line views/ybs/base.qtpl:93
+//line views/ybs/base.qtpl:95
 	qw422016.E().S(p.SiteCf.SelfHash)
-//line views/ybs/base.qtpl:93
+//line views/ybs/base.qtpl:95
 	qw422016.N().S(`"></script>
 
 `)
-//line views/ybs/base.qtpl:95
+//line views/ybs/base.qtpl:97
 	if len(p.JsonLd) > 0 {
-//line views/ybs/base.qtpl:95
+//line views/ybs/base.qtpl:97
 		qw422016.N().S(`
 <script type="application/ld+json">
 `)
-//line views/ybs/base.qtpl:97
+//line views/ybs/base.qtpl:99
 		qw422016.N().S(p.JsonLd)
-//line views/ybs/base.qtpl:97
+//line views/ybs/base.qtpl:99
 		qw422016.N().S(`
 </script>
 `)
-//line views/ybs/base.qtpl:99
+//line views/ybs/base.qtpl:101
 	}
-//line views/ybs/base.qtpl:99
+//line views/ybs/base.qtpl:101
 	qw422016.N().S(`
 
 `)
-//line views/ybs/base.qtpl:101
+//line views/ybs/base.qtpl:103
 	if p.ShowAutoAd && len(p.SiteCf.GoogleAutoAdJs) > 0 {
-//line views/ybs/base.qtpl:101
+//line views/ybs/base.qtpl:103
 		qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:102
+//line views/ybs/base.qtpl:104
 		qw422016.N().S(p.SiteCf.GoogleAutoAdJs)
-//line views/ybs/base.qtpl:102
+//line views/ybs/base.qtpl:104
 		qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:103
+//line views/ybs/base.qtpl:105
 	}
-//line views/ybs/base.qtpl:103
+//line views/ybs/base.qtpl:105
 	qw422016.N().S(`
 
 `)
-//line views/ybs/base.qtpl:105
+//line views/ybs/base.qtpl:107
 	if len(p.SiteCf.HeaderPartCon) > 0 {
-//line views/ybs/base.qtpl:105
+//line views/ybs/base.qtpl:107
 		qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:106
+//line views/ybs/base.qtpl:108
 		qw422016.N().S(p.SiteCf.HeaderPartCon)
-//line views/ybs/base.qtpl:106
+//line views/ybs/base.qtpl:108
 		qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:107
+//line views/ybs/base.qtpl:109
 	}
-//line views/ybs/base.qtpl:107
+//line views/ybs/base.qtpl:109
 	qw422016.N().S(`
 
 `)
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 }
 
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 func (p *BasePage) WriteHeader(qq422016 qtio422016.Writer) {
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 	p.StreamHeader(qw422016)
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 }
 
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 func (p *BasePage) Header() string {
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 	p.WriteHeader(qb422016)
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 	return qs422016
-//line views/ybs/base.qtpl:109
+//line views/ybs/base.qtpl:111
 }
 
 // Header ed
 //
 // Banner bg
 
-//line views/ybs/base.qtpl:113
+//line views/ybs/base.qtpl:115
 func (p *BasePage) StreamBanner(qw422016 *qt422016.Writer) {
-//line views/ybs/base.qtpl:113
+//line views/ybs/base.qtpl:115
 	qw422016.N().S(`
 <a href="/" class="pure-menu-heading pure-menu-link">`)
-//line views/ybs/base.qtpl:114
+//line views/ybs/base.qtpl:116
 	qw422016.E().S(p.SiteCf.Name)
-//line views/ybs/base.qtpl:114
+//line views/ybs/base.qtpl:116
 	qw422016.N().S(`</a>
 <ul class="pure-menu-list">
     `)
-//line views/ybs/base.qtpl:116
+//line views/ybs/base.qtpl:118
 	if p.CurrentUser.ID > 0 {
-//line views/ybs/base.qtpl:116
+//line views/ybs/base.qtpl:118
 		qw422016.N().S(`
     <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
         <a href="#" id="menuLink1" class="pure-menu-link" style="padding: .5em 1em;"><img class="avatar" src="/static/avatar/`)
-//line views/ybs/base.qtpl:118
+//line views/ybs/base.qtpl:120
 		qw422016.N().DUL(p.CurrentUser.ID)
-//line views/ybs/base.qtpl:118
+//line views/ybs/base.qtpl:120
 		qw422016.N().S(`.jpg" alt="`)
-//line views/ybs/base.qtpl:118
+//line views/ybs/base.qtpl:120
 		qw422016.E().S(p.CurrentUser.Name)
-//line views/ybs/base.qtpl:118
+//line views/ybs/base.qtpl:120
 		qw422016.N().S(` avatar"/></a>
         <ul class="pure-menu-children">
             <li class="pure-menu-item"><a href="/setting" class="pure-menu-link">设置</a></li>
@@ -344,235 +346,235 @@ func (p *BasePage) StreamBanner(qw422016 *qt422016.Writer) {
         </ul>
     </li>
     `)
-//line views/ybs/base.qtpl:124
+//line views/ybs/base.qtpl:126
 	} else {
-//line views/ybs/base.qtpl:124
+//line views/ybs/base.qtpl:126
 		qw422016.N().S(`
     <li class="pure-menu-item"><a href="/login" rel="nofollow" class="pure-menu-link">登录</a></li>
     <li class="pure-menu-item"><a href="/register" rel="nofollow" class="pure-menu-link">注册</a></li>
     `)
-//line views/ybs/base.qtpl:127
+//line views/ybs/base.qtpl:129
 	}
-//line views/ybs/base.qtpl:127
+//line views/ybs/base.qtpl:129
 	qw422016.N().S(`
 </ul>
 `)
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 }
 
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 func (p *BasePage) WriteBanner(qq422016 qtio422016.Writer) {
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 	p.StreamBanner(qw422016)
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 }
 
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 func (p *BasePage) Banner() string {
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 	p.WriteBanner(qb422016)
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 	return qs422016
-//line views/ybs/base.qtpl:129
+//line views/ybs/base.qtpl:131
 }
 
 // Banner ed
 //
 // MainBodyNav bg
 
-//line views/ybs/base.qtpl:133
+//line views/ybs/base.qtpl:135
 func (p *BasePage) StreamMainBodyNav(qw422016 *qt422016.Writer) {
-//line views/ybs/base.qtpl:133
+//line views/ybs/base.qtpl:135
 	qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:134
+//line views/ybs/base.qtpl:136
 	if p.CurrentUser.ID > 0 {
-//line views/ybs/base.qtpl:134
+//line views/ybs/base.qtpl:136
 		qw422016.N().S(`
 <div class="body-nav box bot-line">
     <div class="pure-button-group">
         `)
-//line views/ybs/base.qtpl:137
+//line views/ybs/base.qtpl:139
 		if p.CurrentUser.Flag == 0 {
-//line views/ybs/base.qtpl:137
+//line views/ybs/base.qtpl:139
 			qw422016.N().S(`
         <span class="pure-button button-warning">您已被管理员禁用</span>
         `)
-//line views/ybs/base.qtpl:139
+//line views/ybs/base.qtpl:141
 		} else {
-//line views/ybs/base.qtpl:139
+//line views/ybs/base.qtpl:141
 			qw422016.N().S(`
         `)
-//line views/ybs/base.qtpl:140
+//line views/ybs/base.qtpl:142
 			if p.CurrentUser.Flag == 1 {
-//line views/ybs/base.qtpl:140
+//line views/ybs/base.qtpl:142
 				qw422016.N().S(`
         <span class="pure-button button-warning">请等待管理员审核</span>
         `)
-//line views/ybs/base.qtpl:142
+//line views/ybs/base.qtpl:144
 			}
-//line views/ybs/base.qtpl:142
+//line views/ybs/base.qtpl:144
 			qw422016.N().S(`
         `)
-//line views/ybs/base.qtpl:143
+//line views/ybs/base.qtpl:145
 			if p.CurrentUser.Flag >= 5 {
-//line views/ybs/base.qtpl:143
+//line views/ybs/base.qtpl:145
 				qw422016.N().S(`
         `)
-//line views/ybs/base.qtpl:144
+//line views/ybs/base.qtpl:146
 				if p.HasMsg {
-//line views/ybs/base.qtpl:144
+//line views/ybs/base.qtpl:146
 					qw422016.N().S(`
         <a class="pure-button button-warning" href="/my/msg">未读信息</a>
         `)
-//line views/ybs/base.qtpl:146
+//line views/ybs/base.qtpl:148
 				}
-//line views/ybs/base.qtpl:146
+//line views/ybs/base.qtpl:148
 				qw422016.N().S(`
         <a class="pure-button pure-button-primary" href="/topic/add?nid=`)
-//line views/ybs/base.qtpl:147
+//line views/ybs/base.qtpl:149
 				qw422016.N().DUL(p.DefaultNode.ID)
-//line views/ybs/base.qtpl:147
+//line views/ybs/base.qtpl:149
 				qw422016.N().S(`">发帖</a>
         `)
-//line views/ybs/base.qtpl:148
+//line views/ybs/base.qtpl:150
 			}
-//line views/ybs/base.qtpl:148
+//line views/ybs/base.qtpl:150
 			qw422016.N().S(`
         `)
-//line views/ybs/base.qtpl:149
+//line views/ybs/base.qtpl:151
 			if p.CurrentUser.Flag >= 99 {
-//line views/ybs/base.qtpl:149
+//line views/ybs/base.qtpl:151
 				qw422016.N().S(`
             `)
-//line views/ybs/base.qtpl:150
+//line views/ybs/base.qtpl:152
 				if p.HasTopicReview {
-//line views/ybs/base.qtpl:150
+//line views/ybs/base.qtpl:152
 					qw422016.N().S(`
             <a class="pure-button button-warning" href="/admin/topic/review">审帖</a>
             `)
-//line views/ybs/base.qtpl:152
+//line views/ybs/base.qtpl:154
 				}
-//line views/ybs/base.qtpl:152
+//line views/ybs/base.qtpl:154
 				qw422016.N().S(`
             `)
-//line views/ybs/base.qtpl:153
+//line views/ybs/base.qtpl:155
 				if p.HasReplyReview {
-//line views/ybs/base.qtpl:153
+//line views/ybs/base.qtpl:155
 					qw422016.N().S(`
             <a class="pure-button button-warning" href="/admin/comment/review">审评</a>
             `)
-//line views/ybs/base.qtpl:155
+//line views/ybs/base.qtpl:157
 				}
-//line views/ybs/base.qtpl:155
+//line views/ybs/base.qtpl:157
 				qw422016.N().S(`
             <a class="pure-button" href="/admin/node">节点</a>
             <a class="pure-button" href="/admin/user">用户</a>
             <a class="pure-button" href="/admin/link">链接</a>
             <a class="pure-button" href="/admin/site/conf">设置</a>
         `)
-//line views/ybs/base.qtpl:160
+//line views/ybs/base.qtpl:162
 			}
-//line views/ybs/base.qtpl:160
+//line views/ybs/base.qtpl:162
 			qw422016.N().S(`
         `)
-//line views/ybs/base.qtpl:161
+//line views/ybs/base.qtpl:163
 		}
-//line views/ybs/base.qtpl:161
+//line views/ybs/base.qtpl:163
 		qw422016.N().S(`
     </div>
 </div>
 `)
-//line views/ybs/base.qtpl:164
+//line views/ybs/base.qtpl:166
 	}
-//line views/ybs/base.qtpl:164
+//line views/ybs/base.qtpl:166
 	qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 }
 
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 func (p *BasePage) WriteMainBodyNav(qq422016 qtio422016.Writer) {
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 	p.StreamMainBodyNav(qw422016)
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 }
 
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 func (p *BasePage) MainBodyNav() string {
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 	p.WriteMainBodyNav(qb422016)
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 	return qs422016
-//line views/ybs/base.qtpl:165
+//line views/ybs/base.qtpl:167
 }
 
 // MainBodyNav ed
 //
 // MainBody bg
 
-//line views/ybs/base.qtpl:169
+//line views/ybs/base.qtpl:171
 func (p *BasePage) StreamMainBody(qw422016 *qt422016.Writer) {
-//line views/ybs/base.qtpl:169
+//line views/ybs/base.qtpl:171
 	qw422016.N().S(`
 This is a base MainBody
 `)
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 }
 
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 func (p *BasePage) WriteMainBody(qq422016 qtio422016.Writer) {
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 	p.StreamMainBody(qw422016)
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 }
 
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 func (p *BasePage) MainBody() string {
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 	p.WriteMainBody(qb422016)
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 	return qs422016
-//line views/ybs/base.qtpl:171
+//line views/ybs/base.qtpl:173
 }
 
 // MainBody ed
 //
 // Aside bg
 
-//line views/ybs/base.qtpl:175
+//line views/ybs/base.qtpl:177
 func (p *BasePage) StreamAside(qw422016 *qt422016.Writer) {
-//line views/ybs/base.qtpl:175
+//line views/ybs/base.qtpl:177
 	qw422016.N().S(`
 <aside class="sidebar">
 
@@ -583,341 +585,341 @@ func (p *BasePage) StreamAside(qw422016 *qt422016.Writer) {
     </section>
 
     `)
-//line views/ybs/base.qtpl:184
+//line views/ybs/base.qtpl:186
 	if len(p.RecentComment) > 0 {
-//line views/ybs/base.qtpl:184
+//line views/ybs/base.qtpl:186
 		qw422016.N().S(`
     <section>
         <h1>💬 最近评论</h1>
         <ul id="recent_comments">
             `)
-//line views/ybs/base.qtpl:188
+//line views/ybs/base.qtpl:190
 		for k := range p.RecentComment {
-//line views/ybs/base.qtpl:188
+//line views/ybs/base.qtpl:190
 			qw422016.N().S(`
             <li>
                 <img alt="`)
-//line views/ybs/base.qtpl:190
+//line views/ybs/base.qtpl:192
 			qw422016.E().S(p.RecentComment[k].Name)
-//line views/ybs/base.qtpl:190
+//line views/ybs/base.qtpl:192
 			qw422016.N().S(` avatar" src="/static/avatar/`)
-//line views/ybs/base.qtpl:190
+//line views/ybs/base.qtpl:192
 			qw422016.N().DUL(p.RecentComment[k].UserId)
-//line views/ybs/base.qtpl:190
+//line views/ybs/base.qtpl:192
 			qw422016.N().S(`.jpg" class="avatar"> <a href="`)
-//line views/ybs/base.qtpl:190
+//line views/ybs/base.qtpl:192
 			qw422016.E().S(p.RecentComment[k].Link)
-//line views/ybs/base.qtpl:190
+//line views/ybs/base.qtpl:192
 			qw422016.N().S(`">`)
-//line views/ybs/base.qtpl:190
+//line views/ybs/base.qtpl:192
 			qw422016.E().S(p.RecentComment[k].Content)
-//line views/ybs/base.qtpl:190
+//line views/ybs/base.qtpl:192
 			qw422016.N().S(`</a>
             </li>
             `)
-//line views/ybs/base.qtpl:192
+//line views/ybs/base.qtpl:194
 		}
-//line views/ybs/base.qtpl:192
+//line views/ybs/base.qtpl:194
 		qw422016.N().S(`
         </ul>
     </section>
     `)
-//line views/ybs/base.qtpl:195
+//line views/ybs/base.qtpl:197
 	}
-//line views/ybs/base.qtpl:195
+//line views/ybs/base.qtpl:197
 	qw422016.N().S(`
 
     `)
-//line views/ybs/base.qtpl:197
+//line views/ybs/base.qtpl:199
 	if len(p.NodeLst) > 0 {
-//line views/ybs/base.qtpl:197
+//line views/ybs/base.qtpl:199
 		qw422016.N().S(`
     <section>
         <h1>📁 分类</h1>
         <div id="top-category-list">
             `)
-//line views/ybs/base.qtpl:201
+//line views/ybs/base.qtpl:203
 		for k := range p.NodeLst {
-//line views/ybs/base.qtpl:201
+//line views/ybs/base.qtpl:203
 			qw422016.N().S(`
             <a href="/n/`)
-//line views/ybs/base.qtpl:202
+//line views/ybs/base.qtpl:204
 			qw422016.N().DUL(p.NodeLst[k].ID)
-//line views/ybs/base.qtpl:202
+//line views/ybs/base.qtpl:204
 			qw422016.N().S(`">`)
-//line views/ybs/base.qtpl:202
+//line views/ybs/base.qtpl:204
 			qw422016.E().S(p.NodeLst[k].Name)
-//line views/ybs/base.qtpl:202
+//line views/ybs/base.qtpl:204
 			qw422016.N().S(`<span class="tag_meta">(`)
-//line views/ybs/base.qtpl:202
+//line views/ybs/base.qtpl:204
 			qw422016.N().DUL(p.NodeLst[k].TopicNum)
-//line views/ybs/base.qtpl:202
+//line views/ybs/base.qtpl:204
 			qw422016.N().S(`)</span></a>
             `)
-//line views/ybs/base.qtpl:203
+//line views/ybs/base.qtpl:205
 		}
-//line views/ybs/base.qtpl:203
+//line views/ybs/base.qtpl:205
 		qw422016.N().S(`
         </div>
     </section>
     `)
-//line views/ybs/base.qtpl:206
+//line views/ybs/base.qtpl:208
 	}
-//line views/ybs/base.qtpl:206
+//line views/ybs/base.qtpl:208
 	qw422016.N().S(`
 
     `)
-//line views/ybs/base.qtpl:208
+//line views/ybs/base.qtpl:210
 	if len(p.RangeTopicLst) > 0 {
-//line views/ybs/base.qtpl:208
+//line views/ybs/base.qtpl:210
 		qw422016.N().S(`
     <section>
         <h1>📝 最近浏览</h1>
         <ul id="recent_posts">
             `)
-//line views/ybs/base.qtpl:212
+//line views/ybs/base.qtpl:214
 		for k := range p.RangeTopicLst {
-//line views/ybs/base.qtpl:212
+//line views/ybs/base.qtpl:214
 			qw422016.N().S(`
             <li><a href="/t/`)
-//line views/ybs/base.qtpl:213
+//line views/ybs/base.qtpl:215
 			qw422016.N().DUL(p.RangeTopicLst[k].ID)
-//line views/ybs/base.qtpl:213
+//line views/ybs/base.qtpl:215
 			qw422016.N().S(`">`)
-//line views/ybs/base.qtpl:213
+//line views/ybs/base.qtpl:215
 			qw422016.E().S(p.RangeTopicLst[k].Title)
-//line views/ybs/base.qtpl:213
+//line views/ybs/base.qtpl:215
 			qw422016.N().S(`</a></li>
             `)
-//line views/ybs/base.qtpl:214
+//line views/ybs/base.qtpl:216
 		}
-//line views/ybs/base.qtpl:214
+//line views/ybs/base.qtpl:216
 		qw422016.N().S(`
         </ul>
     </section>
     `)
-//line views/ybs/base.qtpl:217
+//line views/ybs/base.qtpl:219
 	}
-//line views/ybs/base.qtpl:217
+//line views/ybs/base.qtpl:219
 	qw422016.N().S(`
 
     `)
-//line views/ybs/base.qtpl:219
+//line views/ybs/base.qtpl:221
 	if len(p.TagCloud) > 0 {
-//line views/ybs/base.qtpl:219
+//line views/ybs/base.qtpl:221
 		qw422016.N().S(`
     <section>
         <h1>🏷️ 标签</h1>
         <div id="tag-cloud">
             `)
-//line views/ybs/base.qtpl:223
+//line views/ybs/base.qtpl:225
 		for k := range p.TagCloud {
-//line views/ybs/base.qtpl:223
+//line views/ybs/base.qtpl:225
 			qw422016.N().S(`
             <a href="/tag/`)
-//line views/ybs/base.qtpl:224
+//line views/ybs/base.qtpl:226
 			qw422016.N().U(p.TagCloud[k].Name)
-//line views/ybs/base.qtpl:224
+//line views/ybs/base.qtpl:226
 			qw422016.N().S(`">`)
-//line views/ybs/base.qtpl:224
+//line views/ybs/base.qtpl:226
 			qw422016.E().S(p.TagCloud[k].Name)
-//line views/ybs/base.qtpl:224
+//line views/ybs/base.qtpl:226
 			qw422016.N().S(`<span class="tag-meta">(`)
-//line views/ybs/base.qtpl:224
+//line views/ybs/base.qtpl:226
 			qw422016.N().D(p.TagCloud[k].Size)
-//line views/ybs/base.qtpl:224
+//line views/ybs/base.qtpl:226
 			qw422016.N().S(`)</span></a>
             `)
-//line views/ybs/base.qtpl:225
+//line views/ybs/base.qtpl:227
 		}
-//line views/ybs/base.qtpl:225
+//line views/ybs/base.qtpl:227
 		qw422016.N().S(`
         </div>
     </section>
     `)
-//line views/ybs/base.qtpl:228
+//line views/ybs/base.qtpl:230
 	}
-//line views/ybs/base.qtpl:228
+//line views/ybs/base.qtpl:230
 	qw422016.N().S(`
 
     `)
-//line views/ybs/base.qtpl:230
+//line views/ybs/base.qtpl:232
 	if len(p.LinkLst) > 0 {
-//line views/ybs/base.qtpl:230
+//line views/ybs/base.qtpl:232
 		qw422016.N().S(`
     <section>
         <h1>🔗 链接</h1>
         <ul id="link-cloud">
             `)
-//line views/ybs/base.qtpl:234
+//line views/ybs/base.qtpl:236
 		for k := range p.LinkLst {
-//line views/ybs/base.qtpl:234
+//line views/ybs/base.qtpl:236
 			qw422016.N().S(`
             <li><a href="`)
-//line views/ybs/base.qtpl:235
+//line views/ybs/base.qtpl:237
 			qw422016.E().S(p.LinkLst[k].Url)
-//line views/ybs/base.qtpl:235
+//line views/ybs/base.qtpl:237
 			qw422016.N().S(`" target="_blank">`)
-//line views/ybs/base.qtpl:235
+//line views/ybs/base.qtpl:237
 			qw422016.E().S(p.LinkLst[k].Name)
-//line views/ybs/base.qtpl:235
+//line views/ybs/base.qtpl:237
 			qw422016.N().S(`</a></li>
             `)
-//line views/ybs/base.qtpl:236
+//line views/ybs/base.qtpl:238
 		}
-//line views/ybs/base.qtpl:236
+//line views/ybs/base.qtpl:238
 		qw422016.N().S(`
         </ul>
     </section>
     `)
-//line views/ybs/base.qtpl:239
+//line views/ybs/base.qtpl:241
 	}
-//line views/ybs/base.qtpl:239
+//line views/ybs/base.qtpl:241
 	qw422016.N().S(`
 
     `)
-//line views/ybs/base.qtpl:241
+//line views/ybs/base.qtpl:243
 	if p.SiteInfo.NodeNum > 0 {
-//line views/ybs/base.qtpl:241
+//line views/ybs/base.qtpl:243
 		qw422016.N().S(`
     <section>
         <h1>💡 本站已稳定运行 `)
-//line views/ybs/base.qtpl:243
+//line views/ybs/base.qtpl:245
 		qw422016.E().S(p.SiteInfo.Days)
-//line views/ybs/base.qtpl:243
+//line views/ybs/base.qtpl:245
 		qw422016.N().S(`</h1>
         <ul id="site-info">
             <li>会员: `)
-//line views/ybs/base.qtpl:245
+//line views/ybs/base.qtpl:247
 		qw422016.N().DUL(p.SiteInfo.UserNum)
-//line views/ybs/base.qtpl:245
+//line views/ybs/base.qtpl:247
 		qw422016.N().S(`</li>
             <li>帖子: `)
-//line views/ybs/base.qtpl:246
+//line views/ybs/base.qtpl:248
 		qw422016.N().DUL(p.SiteInfo.PostNum)
-//line views/ybs/base.qtpl:246
+//line views/ybs/base.qtpl:248
 		qw422016.N().S(`</li>
             <li>回复: `)
-//line views/ybs/base.qtpl:247
+//line views/ybs/base.qtpl:249
 		qw422016.N().DUL(p.SiteInfo.ReplyNum)
-//line views/ybs/base.qtpl:247
+//line views/ybs/base.qtpl:249
 		qw422016.N().S(`</li>
             <li>分类: `)
-//line views/ybs/base.qtpl:248
+//line views/ybs/base.qtpl:250
 		qw422016.N().DUL(p.SiteInfo.NodeNum)
-//line views/ybs/base.qtpl:248
+//line views/ybs/base.qtpl:250
 		qw422016.N().S(`</li>
             <li>标签: `)
-//line views/ybs/base.qtpl:249
+//line views/ybs/base.qtpl:251
 		qw422016.N().DUL(p.SiteInfo.TagNum)
-//line views/ybs/base.qtpl:249
+//line views/ybs/base.qtpl:251
 		qw422016.N().S(`</li>
             <li>`)
-//line views/ybs/base.qtpl:250
+//line views/ybs/base.qtpl:252
 		qw422016.E().S(p.SiteInfo.WeekNum)
-//line views/ybs/base.qtpl:250
+//line views/ybs/base.qtpl:252
 		qw422016.N().S(`</li>
         </ul>
     </section>
     `)
-//line views/ybs/base.qtpl:253
+//line views/ybs/base.qtpl:255
 	}
-//line views/ybs/base.qtpl:253
+//line views/ybs/base.qtpl:255
 	qw422016.N().S(`
 
 </aside>
 
 `)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 }
 
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 func (p *BasePage) WriteAside(qq422016 qtio422016.Writer) {
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 	p.StreamAside(qw422016)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 }
 
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 func (p *BasePage) Aside() string {
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 	p.WriteAside(qb422016)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 	return qs422016
-//line views/ybs/base.qtpl:257
+//line views/ybs/base.qtpl:259
 }
 
 // Aside ed
 //
 // Footer bg
 
-//line views/ybs/base.qtpl:261
+//line views/ybs/base.qtpl:263
 func (p *BasePage) StreamFooter(qw422016 *qt422016.Writer) {
-//line views/ybs/base.qtpl:261
+//line views/ybs/base.qtpl:263
 	qw422016.N().S(`
 <p>
     Copyright &copy; <a href="/">`)
-//line views/ybs/base.qtpl:263
+//line views/ybs/base.qtpl:265
 	qw422016.E().S(p.SiteCf.Name)
-//line views/ybs/base.qtpl:263
+//line views/ybs/base.qtpl:265
 	qw422016.N().S(`</a> -
     <span class="credit">Powered by <a href="https://youbbs.org">goYouBBS</a> - <a href="#">&uarr;Go Top</a> </span>
 </p>
 
 `)
-//line views/ybs/base.qtpl:267
+//line views/ybs/base.qtpl:269
 	if len(p.SiteCf.FooterPartHtml) > 0 {
-//line views/ybs/base.qtpl:267
+//line views/ybs/base.qtpl:269
 		qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:268
+//line views/ybs/base.qtpl:270
 		qw422016.N().S(p.SiteCf.FooterPartHtml)
-//line views/ybs/base.qtpl:268
+//line views/ybs/base.qtpl:270
 		qw422016.N().S(`
 `)
-//line views/ybs/base.qtpl:269
+//line views/ybs/base.qtpl:271
 	}
-//line views/ybs/base.qtpl:269
+//line views/ybs/base.qtpl:271
 	qw422016.N().S(`
 
 `)
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 }
 
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 func (p *BasePage) WriteFooter(qq422016 qtio422016.Writer) {
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 	p.StreamFooter(qw422016)
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 	qt422016.ReleaseWriter(qw422016)
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 }
 
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 func (p *BasePage) Footer() string {
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 	p.WriteFooter(qb422016)
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 	qs422016 := string(qb422016.B)
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 	return qs422016
-//line views/ybs/base.qtpl:271
+//line views/ybs/base.qtpl:273
 }
 
 // Footer ed
