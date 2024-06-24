@@ -144,6 +144,8 @@ h1.br-nav, h2.br-nav, h3.br-nav, h4.br-nav {color:#777;font-size: 1em;font-weigh
 .main-right-body {padding: 0;}
 
 .body-nav {background-color: var(--main-bg-color);}
+.sf {display: inline-block;}
+.sf input {width: 130px; font-size: .7em;}
 
 .index {padding: .5em;background-color: var(--main-bg-color);}
 .index article {border-bottom: 1px solid var(--line-color);}
@@ -311,8 +313,6 @@ body>footer a:hover {color: #eee}
     display: inline-block;}
 #recent_comments li a {color: #333;text-decoration:none;}
 #recent_comments li a:hover {color:#000;text-decoration: underline;}
-.sidebar section.search-form {color: #333;background-color:var(--bar-bg-color);text-align: center;padding: .5em}
-.sidebar section.search-form input {background-color: #FCFCFC;line-height: .8em;padding: .2em .5em;}
 #top-category-list {line-height: 1.8em;padding: .5em 1em .5em 1em;font-size: .9em;max-height: 163px;overflow: auto;}
 #top-category-list a {color: #333;text-decoration:none;padding: 2px 4px;}
 #top-category-list a:hover {color: #fff;background-color: #464747}
@@ -347,6 +347,7 @@ body>footer a:hover {color: #eee}
 
 a.top {
     font-size: 0;
+    opacity: 0;
     font-family: Helvetica,Arial,Verdana,sans-serif;
     position: fixed;
     bottom: 100px;
@@ -367,7 +368,7 @@ a.top {
     color: #666;
     background: rgba(255, 255, 255, .5);
 }
-a.top.visible {font-size: 24px;}
+a.top.visible {opacity:1;font-size: 24px;}
 a.top:hover{background: rgba(200, 200, 200, .8);}
 
 #id-msg {color: rgb(202, 60, 60);}
