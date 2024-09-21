@@ -97,6 +97,7 @@ func (h *BaseHandler) CurrentUser(ctx *fasthttp.RequestCtx) (*model.User, error)
 }
 
 func (h *BaseHandler) SetCookie(ctx *fasthttp.RequestCtx, name, value string, days int) error {
+	name = name + h.App.Cf.Main.Addr
 	encoded, err := h.App.Sc.Encode(name, value)
 	if err != nil {
 		return err
@@ -108,6 +109,7 @@ func (h *BaseHandler) SetCookie(ctx *fasthttp.RequestCtx, name, value string, da
 	c.SetPath("/")
 	c.SetSecure(false)
 	c.SetHTTPOnly(true)
+	c.SetSameSite(fasthttp.CookieSameSiteStrictMode)
 	c.SetExpire(time.Now().UTC().AddDate(0, 0, days))
 	ctx.Response.Header.SetCookie(&c)
 
@@ -115,6 +117,7 @@ func (h *BaseHandler) SetCookie(ctx *fasthttp.RequestCtx, name, value string, da
 }
 
 func (h *BaseHandler) GetCookie(ctx *fasthttp.RequestCtx, name string) string {
+	name = name + h.App.Cf.Main.Addr
 	if cookieByte := ctx.Request.Header.Cookie(name); len(cookieByte) > 0 {
 		var value string
 		if err := h.App.Sc.Decode(name, sdb.B2s(cookieByte), &value); err == nil {
@@ -126,6 +129,7 @@ func (h *BaseHandler) GetCookie(ctx *fasthttp.RequestCtx, name string) string {
 
 func (h *BaseHandler) DelCookie(ctx *fasthttp.RequestCtx, name string) {
 	if len(name) > 0 {
+		name = name + h.App.Cf.Main.Addr
 		ctx.Response.Header.DelClientCookie(name)
 	}
 }
