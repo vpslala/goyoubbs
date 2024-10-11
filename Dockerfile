@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.16
+ARG GO_VERSION=1.19
 
 FROM golang:${GO_VERSION}-alpine AS builder
 
@@ -25,4 +25,4 @@ COPY --from=builder /app .
 
 EXPOSE 8080
 
-ENTRYPOINT ["./app", "-addr=:8080", "-sdbDir=/mnt/images/onlinedb"]
+ENTRYPOINT ["./app", "-addr=:8080", "-sdbDir=/data/goyoubbs/onlinedb"]
