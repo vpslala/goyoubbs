@@ -23,6 +23,6 @@ RUN mkdir -p /app
 WORKDIR /app
 COPY --from=builder /app .
 
-EXPOSE 8080
+EXPOSE 8082
 
-ENTRYPOINT ["./app", "-addr=:8080", "-sdbDir=/data/goyoubbs/onlinedb"]
+ENTRYPOINT ["./app", "-addr=:8082", "-sdbDir=/data/goyoubbs/onlinedb"]
